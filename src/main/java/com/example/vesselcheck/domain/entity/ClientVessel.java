@@ -1,11 +1,13 @@
 package com.example.vesselcheck.domain.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ClientVessel extends BaseEntity{
 
     @Id
@@ -22,5 +24,8 @@ public class ClientVessel extends BaseEntity{
     private Vessel vessel;
 
 
-
+    public ClientVessel(Client client, Vessel vessel) {
+        this.client = client;
+        this.vessel = vessel;
+    }
 }

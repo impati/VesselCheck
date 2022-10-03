@@ -19,7 +19,5 @@ public abstract class Client extends BaseEntity {
     private String belongs;
     private String email;
 
-    @OneToMany(mappedBy = "client")
-    private List<ClientVessel> clientVessel = new ArrayList<>();
 
 }
