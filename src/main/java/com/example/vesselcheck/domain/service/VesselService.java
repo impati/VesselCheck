@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class VesselRegister {
+public class VesselService {
     private final VesselRepository vesselRepository;
     private final ClientRepository clientRepository;
     private final ClientVesselRepository clientVesselRepository;

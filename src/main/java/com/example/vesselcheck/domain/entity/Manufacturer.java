@@ -8,5 +8,5 @@ import javax.persistence.*;
 @DiscriminatorValue("Manufacturer")
 @Getter
 public class Manufacturer extends Client{
-    private Specialty rankPosition;
+    private Specialty specialty;
 }
