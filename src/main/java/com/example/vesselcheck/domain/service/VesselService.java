@@ -58,4 +58,13 @@ public class VesselService {
         ClientVessel clientVessel = new ClientVessel(client,vessel);
         clientVesselRepository.save(clientVessel);
     }
+
+
+    /**
+     * 선박 정보
+     */
+    public VesselInfo vesselInfo(String IMO , String vesselName, VesselType vesselType){
+        return new VesselInfo(IMO,vesselName,vesselType);
+    }
+
 }
