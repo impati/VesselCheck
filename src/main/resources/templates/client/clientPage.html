@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="col-sm-12 col-xl-12">
+        <div class="bg-light rounded h-100 p-4">
+            <h4 class="mb-4" th:text="${clientInfo.name}"></h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>소속</th>
+                        <th>이메일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${clientInfo.name}"></td>
+                        <td th:text="${clientInfo.belongs}"></td>
+                        <td th:text="${clientInfo.email}"></td>
+                        <!-- <td th:text="${clientInfo.currentRating}"></td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -17,7 +17,7 @@ src/main/generated/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-*.yml
+#*.yml
 ### IntelliJ IDEA ###
 .idea
 *.iws
