@@ -13,7 +13,7 @@ src/main/generated/
 .project
 .settings
 .springBeans
-.sts4-cache
+.sts4-cachew
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/

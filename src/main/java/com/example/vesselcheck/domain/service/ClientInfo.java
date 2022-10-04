@@ -22,7 +22,9 @@ public class ClientInfo {
         this.name = client.getName();
         this.belongs = client.getBelongs();
         this.email = client.getEmail();
-        if(client instanceof Manufacturer) this.specialty = ((Manufacturer)client).getSpecialty();
-        else this.rankPosition = ((Inspector)client).getRankPosition();
+
+//        if(client instanceof Manufacturer) this.specialty = ((Manufacturer)client).getSpecialty();
+//        else this.rankPosition = ((Inspector)client).getRankPosition();
+
     }
 }

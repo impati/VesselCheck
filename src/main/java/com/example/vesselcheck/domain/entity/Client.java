@@ -1,38 +1,44 @@
 package com.example.vesselcheck.domain.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * SINGLE TABLE 전략 사용시 오류 -> 대책 방안은 ?
+ */
 @Entity
+@DiscriminatorColumn
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter@Setter
-public abstract class Client extends BaseEntity {
+public abstract class Client  {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="client_id")
     private Long id;
+
     private String name;
     private String belongs;
     private String email;
 
 
     public static Client createClient(String name,String belongs,String email,ClientType clientType){
-        Client client = null;
         if(clientType == ClientType.INSPECTOR){
-            client = new Inspector();
+            Client client = new Inspector();
             client.setName(name);
             client.setBelongs(belongs);
             client.setEmail(email);
+            return client;
         }
         else{
-            client = new Manufacturer();
+            Client client = new Manufacturer();
             client.setName(name);
             client.setBelongs(belongs);
             client.setEmail(email);
+            return client;
         }
-        return client;
     }
 
 }

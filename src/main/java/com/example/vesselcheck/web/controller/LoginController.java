@@ -37,7 +37,7 @@ public class LoginController {
             Long clientId = clientService.clientRegister(clientLoginDto.getName(),
                     clientLoginDto.getBelongs(),
                     clientLoginDto.getEmail(), clientLoginDto.getClientType());
-            return "redirect:/";
+            return "redirect:/client/" + clientId;
         }
         result.reject(null,"아이디와 비밀번호가 맞지않습니다");
         return "redirect:/client/add";
@@ -45,8 +45,8 @@ public class LoginController {
     @GetMapping("/client/{clientId}")
     public String clientPage(@PathVariable Long clientId ,Model model){
         ClientInfo clientInfo = clientService.clientInfo(clientId);
-        model.addAttribute("clientInfo {}",clientInfo);
-        log.info("clientInfo",clientInfo);
+        model.addAttribute("clientInfo",clientInfo);
+        log.info("clientInfo {}",clientInfo);
         return "client/clientPage";
     }
 

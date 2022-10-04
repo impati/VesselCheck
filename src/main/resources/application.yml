@@ -12,11 +12,12 @@ spring: #???? ??
         format_sql: true
         default_batch_fetch_size: 1000
 
-#logging.level:
-#  org.hibernate.SQL: debug
+logging.level:
+  org.hibernate.SQL: debug
 
 server:
   port: 8080
 ## org.hibernate.type: trace
 
 
+#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
