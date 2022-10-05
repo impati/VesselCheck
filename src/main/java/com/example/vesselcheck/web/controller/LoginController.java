@@ -5,6 +5,7 @@ import com.example.vesselcheck.domain.entity.Client;
 import com.example.vesselcheck.domain.entity.ClientType;
 import com.example.vesselcheck.domain.service.ClientInfo;
 import com.example.vesselcheck.domain.service.ClientService;
+import com.example.vesselcheck.web.config.SessionConst;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
@@ -24,8 +27,9 @@ import javax.validation.constraints.NotEmpty;
 public class LoginController {
     private final ClientService clientService;
     @GetMapping("/")
-    public String home(@CookieValue(name ="client",required = false) Long clientId , Model model){
-        if(clientId == null) return "home";
+    public String home(@SessionAttribute(name = SessionConst.LOGIN_CLIENT ,required = false) Long clientId , Model model){
+
+        if (clientId == null) return "home";
         ClientInfo clientInfo = clientService.clientInfo(clientId);
         if(clientInfo.getName().equals("wnsduds1") || clientInfo.getName().equals("impati")) {
             model.addAttribute("client",clientInfo);
@@ -39,8 +43,11 @@ public class LoginController {
      * 로그 아웃.
      */
     @PostMapping("/logout")
-    public String logout(HttpServletResponse response) {
-        expireCookie(response, "client");
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
         return "redirect:/";
     }
 
@@ -96,12 +103,14 @@ public class LoginController {
      */
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginForm loginForm , BindingResult bindingResult,
-                        HttpServletResponse response){
-        int flag = loginForm.check();
-        if(flag != 0 ){
-            Cookie idCookie = new Cookie("client",String.valueOf(flag));
-            response.addCookie(idCookie);
-            return "redirect:/";
+                       @RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest req){
+        Long clientId = loginForm.check();
+        if(clientId != 0 ){
+            //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+            HttpSession session = req.getSession();
+            //세션에 로그인 회원 정보 보관
+            session.setAttribute(SessionConst.LOGIN_CLIENT, clientId);
+            return "redirect:" + redirectURL;
         }
         bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
         return "client/loginForm";
@@ -115,10 +124,10 @@ public class LoginController {
         private String loginId;
         @NotEmpty
         private String password;
-        public int check() {
-            if (this.getLoginId().equals("wnsduds1") && this.getPassword().equals("1234")) return 1; // 검사관
-            if (this.getLoginId().equals("impati") && this.getPassword().equals("1234")) return 2; //제조업체
-            else return 0;
+        public Long check() {
+            if (this.getLoginId().equals("wnsduds1") && this.getPassword().equals("1234")) return 1L; // 검사관
+            if (this.getLoginId().equals("impati") && this.getPassword().equals("1234")) return 2L; //제조업체
+            else return 0L;
         }
     }
 
