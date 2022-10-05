@@ -6,7 +6,9 @@ import com.example.vesselcheck.domain.entity.ClientType;
 import com.example.vesselcheck.domain.service.ClientInfo;
 import com.example.vesselcheck.domain.service.ClientService;
 import com.example.vesselcheck.web.config.SessionConst;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -77,16 +79,6 @@ public class LoginController {
         return "redirect:/client/add";
     }
 
-    /**
-     * 사용자 페이지
-     */
-    @GetMapping("/client/{clientId}")
-    public String clientPage(@PathVariable Long clientId ,Model model){
-        ClientInfo clientInfo = clientService.clientInfo(clientId);
-        model.addAttribute("clientInfo",clientInfo);
-        log.info("clientInfo {}",clientInfo);
-        return "client/clientPage";
-    }
 
 
     /**
@@ -131,11 +123,21 @@ public class LoginController {
         }
     }
 
-    private void expireCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static class ClientLoginDto {
+        private String loginId;
+        private String password;
+        private String name;
+        private String belongs;
+        private String email;
+        private ClientType clientType;
+
     }
+
+
+
 
 
 

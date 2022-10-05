@@ -1,6 +1,7 @@
 package com.example.vesselcheck.web.controller;
 
 import com.example.vesselcheck.domain.Repository.ClientVesselRepository;
+import com.example.vesselcheck.domain.entity.ClientType;
 import com.example.vesselcheck.domain.entity.ClientVessel;
 import com.example.vesselcheck.domain.entity.VesselType;
 import com.example.vesselcheck.domain.service.ClientVesselService;
@@ -8,7 +9,9 @@ import com.example.vesselcheck.domain.service.VesselInfo;
 import com.example.vesselcheck.domain.service.VesselSearchCond;
 import com.example.vesselcheck.domain.service.VesselService;
 import com.example.vesselcheck.web.config.SessionConst;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -81,4 +84,7 @@ public class VesselController {
         private String vesselName;
         private VesselType vesselType;
     }
+
+
+
 }
