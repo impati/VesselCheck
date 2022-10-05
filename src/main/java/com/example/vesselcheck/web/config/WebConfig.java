@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns(
+                .excludePathPatterns(//비 로그인 사용자가 접속할 수 있는 페이지
                         "/", "/members/add", "/login", "/logout",
                         "/css/**", "/*.ico", "/error"
                 );

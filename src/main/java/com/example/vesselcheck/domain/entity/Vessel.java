@@ -1,11 +1,13 @@
 package com.example.vesselcheck.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Vessel extends BaseEntity{
     @Id
@@ -25,6 +27,7 @@ public class Vessel extends BaseEntity{
         vessel.vesselType = vesselType;
         return vessel;
     }
+
 
 
 

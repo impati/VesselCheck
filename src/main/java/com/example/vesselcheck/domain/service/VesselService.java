@@ -32,12 +32,6 @@ public class VesselService {
         return vessel;
     }
 
-    /**
-     * 전체 선박 조회
-     */
-    public List<Vessel> searchVessel(VesselSearchCond vesselSearchCond){
-        return vesselRepository.searchVessel(vesselSearchCond);
-    }
 
     /**
      * 사용자 선박 조회
@@ -66,5 +60,23 @@ public class VesselService {
     public VesselInfo vesselInfo(String IMO , String vesselName, VesselType vesselType){
         return new VesselInfo(IMO,vesselName,vesselType);
     }
+
+
+    /**
+     * 전체 선박 조회
+     * - 현재 사용자가 조회된 선박을 소유하고 있을 시 isOwnership true
+     * - 현재 사용자가 조회된 선박을 소유하고 있지 않을 시 isOwnership false
+     *
+     * TODO : 더 좋은 방법 없을까? 현재 O(n^2)
+     */
+    public List<VesselInfo> vesselInfoList (Long clientId,VesselSearchCond vesselSearchCond ){
+        List<Vessel> vesselList = vesselRepository.searchVessel(vesselSearchCond);
+        List<ClientVessel> clientVessels = clientVesselRepository.findByVesselListAndClient(clientId, vesselList);
+        return vesselList.stream().map(v->new VesselInfo(v.getId(),v.getIMO(),v.getVesselName(),v.getVesselType(),isOwner(v,clientVessels))).collect(Collectors.toList());
+    }
+    private boolean isOwner(Vessel vessel,List<ClientVessel> clientVessels){
+        return clientVessels.stream().filter(cv->cv.getVessel().equals(vessel)).findFirst().isPresent();
+    }
+
 
 }

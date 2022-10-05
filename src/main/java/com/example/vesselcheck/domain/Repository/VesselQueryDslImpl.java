@@ -43,7 +43,7 @@ public class VesselQueryDslImpl implements VesselQueryDsl{
         return false;
     }
     private BooleanExpression IMOEq(String IMO){
-        return IMO == null ? null :vessel.IMO.eq(IMO);
+        return !StringUtils.hasText(IMO) ? null :vessel.IMO.eq(IMO);
     }
     private BooleanExpression nameEq(String name){
         return name == null ? null :vessel.vesselName.contains(name);
