@@ -8,6 +8,7 @@ import com.example.vesselcheck.domain.service.VesselInfo;
 import com.example.vesselcheck.domain.service.VesselSearchCond;
 import com.example.vesselcheck.domain.service.VesselService;
 import com.example.vesselcheck.web.config.SessionConst;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -51,4 +52,33 @@ public class VesselController {
         return "redirect:/vessel/vessels";
     }
 
+
+    /**
+     * 선박 등록 페이지
+     *
+     */
+    @GetMapping("/register")
+    public String registerPage(Model model){
+        model.addAttribute("VesselForm",new VesselForm());
+        model.addAttribute("vesselTypes",VesselType.values());
+        return "vessel/register";
+    }
+
+    /**
+     * 선박 등록
+     */
+    @PostMapping("/register")
+    public String register(@ModelAttribute VesselForm vesselForm){
+        vesselService.vesselRegister(vesselForm.getIMO(),vesselForm.getVesselName(),vesselForm.getVesselType());
+        return "redirect:/vessel/vessels";
+    }
+
+
+
+    @Data
+    static class VesselForm{
+        private String IMO;
+        private String vesselName;
+        private VesselType vesselType;
+    }
 }
