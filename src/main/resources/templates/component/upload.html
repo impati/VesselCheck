@@ -53,7 +53,7 @@
                 <div class="col-xl-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                         <h6 class="mb-4">Basic Form</h6>
-                        <form th:object="${componentForm}" method="post">
+                        <form th:action th:object="${componentForm}" method="post" enctype="multipart/form-data">
 
 
                             <div class="mb-3">
@@ -62,18 +62,22 @@
                                        aria-describedby="emailHelp">
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">부품 명</label>
-                                <input type="text" th:field="*{componentName}" class="form-control"
-                                       aria-describedby="emailHelp">
-                            </div>
+                            <hr>
 
-                            <div class="mb-3">
-                                <label class="form-label">일련 번호</label>
-                                <input type="text" th:field="*{sequenceNumber}" class="form-control"
-                                       aria-describedby="emailHelp">
-                            </div>
+                            <th:block th:each="num : ${#numbers.sequence(1,5)}">
+                                <div class="mb-3">
+                                    <label class="form-label">부품 명</label>
+                                    <input type="text"  th:field="*{componentName}" class="form-control"
+                                           aria-describedby="emailHelp">
 
+                                    <label class="form-label">일련 번호</label>
+                                    <input type="text"  th:field="*{sequenceNumber}"  class="form-control"
+                                           aria-describedby="emailHelp">
+
+                                    이미지 파일들<input type="file" multiple="multiple" th:field="*{imageUploadName}">
+
+                                </div>
+                            </th:block>
 
 
                             <button type="submit" class="btn btn-primary" >부품 업로드</button>

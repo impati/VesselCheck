@@ -11,9 +11,17 @@ spring: #???? ??
       hibernate: #???? 6?
         format_sql: true
         default_batch_fetch_size: 1000
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 
-#logging.level:
+  #logging.level:
 #  org.hibernate.SQL: debug
+
+
+file:
+  dir: /Users/jun-yeongchoe/Desktop/project/myFileStore/
 
 server:
   port: 8080

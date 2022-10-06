@@ -1,10 +1,12 @@
 package com.example.vesselcheck.domain.service;
 
+import com.example.vesselcheck.domain.Exception.FileUploadExceptionCustom;
 import com.example.vesselcheck.domain.Repository.BlockRepository;
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.Repository.ComponentRepository;
 import com.example.vesselcheck.domain.Repository.VesselRepository;
 import com.example.vesselcheck.domain.entity.*;
+import com.example.vesselcheck.domain.service.Dto.ComponentForm;
 import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
 import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
@@ -27,7 +29,7 @@ public class ComponentService {
     private final ComponentRepository componentRepository;
     private final VesselRepository vesselRepository;
     private final ClientRepository clientRepository;
-
+    private final FileStore fileStore;
     /**
      * 부품 등록 ..TODO :이미지 업로드 및 추가 기능 ..
      */
@@ -69,22 +71,26 @@ public class ComponentService {
         return block;
     }
 
-
+    /**
+     * 부품 정보 리턴
+     */
     public ComponentInfo componentInfo(Long componentId){
         Components components = componentRepository.findById(componentId).orElse(null);
         return new ComponentInfo(components.getFaultType(),components.getComponentName(),
-                components.getSequenceNumber(),components.getImageName(),components.getWorkingStatus());
+                components.getSequenceNumber(),components.getUploadImageName(),components.getWorkingStatus());
     }
 
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 부품 업로드
+     */
+    public void registerComponentList(ComponentForm componentForm){
+        Block block = blockRepository.findBlockByBlockName(componentForm.getBlockName());
+        try {
+            List<Components> componentsList = fileStore.storeFiles(block, componentForm);
+            componentRepository.saveAll(componentsList);
+        }catch(Exception e){
+            throw new FileUploadExceptionCustom("파일 업로드 에러");
+        }
+    }
 
 }

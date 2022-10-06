@@ -2,6 +2,7 @@ package com.example.vesselcheck.web.controller;
 
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.entity.*;
+import com.example.vesselcheck.domain.service.Dto.ComponentForm;
 import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
 import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.example.vesselcheck.domain.service.ComponentService;
@@ -26,6 +27,7 @@ public class ComponentController {
     private final VesselService vesselService;
     private final ClientRepository clientRepository;
     private final ComponentService componentService;
+
     /**
      * 블럭 등록
      */
@@ -71,7 +73,7 @@ public class ComponentController {
         model.addAttribute("components",componentService.searchComponent(componentSearchCond)
                 .stream()
                 .map(c ->new ComponentInfo(c.getId(),c.getFaultType(),
-                        c.getComponentName(),c.getSequenceNumber(),c.getImageName(),c.getWorkingStatus()))
+                        c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getWorkingStatus()))
                 .collect(Collectors.toList()));
 
 
@@ -103,12 +105,7 @@ public class ComponentController {
                                     @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId,
                                     @ModelAttribute ComponentForm componentForm) {
         if(!isInspector(clientId))return "Not Allow";
-
-
-
-        componentService.registerComponent(componentForm.getBlockName(),componentForm.getComponentName(),
-                componentForm.getSequenceNumber());
-
+        componentService.registerComponentList(componentForm);
         return "redirect:/component/components/" + vesselId;
     }
 
@@ -156,15 +153,6 @@ public class ComponentController {
     }
 
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    static  class ComponentForm{
-        private String blockName ;
-        private String componentName;//enum?
-        private String sequenceNumber;
-//        private String imageName;
-    }
 
 
 

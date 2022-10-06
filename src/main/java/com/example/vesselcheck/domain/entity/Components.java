@@ -17,7 +17,8 @@ public class Components extends BaseEntity {
 
     private String componentName;//enum?
     private String sequenceNumber;
-    private String imageName;
+    private String uploadImageName;
+    private String storeImageName;
     private WorkingStatus workingStatus;
 
     @ManyToOne
@@ -29,6 +30,15 @@ public class Components extends BaseEntity {
         components.componentName = componentName;
         components.block = block;
         components.sequenceNumber = sequenceNumber;
+        return components;
+    }
+    public static Components createComponent(Block block , String componentName, String sequenceNumber,String upload,String store){
+        Components components = new Components();
+        components.componentName = componentName;
+        components.block = block;
+        components.sequenceNumber = sequenceNumber;
+        components.uploadImageName = upload;
+        components.storeImageName = store;
         return components;
     }
 
