@@ -6,6 +6,7 @@ import com.example.vesselcheck.domain.service.Dto.ComponentForm;
 import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
 import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.example.vesselcheck.domain.service.ComponentService;
+import com.example.vesselcheck.domain.service.FileStore;
 import com.example.vesselcheck.domain.service.VesselService;
 import com.example.vesselcheck.web.config.SessionConst;
 import lombok.AllArgsConstructor;
@@ -13,10 +14,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,7 +31,7 @@ public class ComponentController {
     private final VesselService vesselService;
     private final ClientRepository clientRepository;
     private final ComponentService componentService;
-
+    private final FileStore fileStore;
     /**
      * 블럭 등록
      */
@@ -73,7 +77,7 @@ public class ComponentController {
         model.addAttribute("components",componentService.searchComponent(componentSearchCond)
                 .stream()
                 .map(c ->new ComponentInfo(c.getId(),c.getFaultType(),
-                        c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getWorkingStatus()))
+                        c.getComponentName(),c.getSequenceNumber(),c.getWorkingStatus()))
                 .collect(Collectors.toList()));
 
 
@@ -123,17 +127,11 @@ public class ComponentController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFullPath(filename));
+    }
 
 
 

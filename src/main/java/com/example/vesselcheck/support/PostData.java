@@ -25,6 +25,9 @@ public class PostData {
     private final ComponentRepository componentRepository;
     private final ClientRepository clientRepository;
     private final BlockRepository blockRepository;
+
+
+
     @EventListener(ApplicationReadyEvent.class)
     public void postData(){
         clientService.clientRegister("wnsduds1","sejong","yongs170@naver.com", ClientType.INSPECTOR);
@@ -53,14 +56,6 @@ public class PostData {
                 componentRepository.save(components3);
             }
         }
-
-
-
-
-
-
-
-
 
         log.info("End");
     }

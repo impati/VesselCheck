@@ -76,8 +76,8 @@ public class ComponentService {
      */
     public ComponentInfo componentInfo(Long componentId){
         Components components = componentRepository.findById(componentId).orElse(null);
-        return new ComponentInfo(components.getFaultType(),components.getComponentName(),
-                components.getSequenceNumber(),components.getUploadImageName(),components.getWorkingStatus());
+        return new ComponentInfo(components.getId(),components.getFaultType(),components.getComponentName(),
+                components.getSequenceNumber(),components.getUploadImageName(),components.getStoreImageName(),components.getWorkingStatus());
     }
 
     /**

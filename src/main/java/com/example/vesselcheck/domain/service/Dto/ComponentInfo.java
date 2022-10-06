@@ -14,14 +14,22 @@ public class ComponentInfo {
     private FaultType faultType;
     private String componentName;//enum?
     private String sequenceNumber;
-    private String imageName;
+    private String uploadImageName;
+    private String storeImageName;
     private WorkingStatus workingStatus;
 
-    public ComponentInfo(FaultType faultType, String componentName, String sequenceNumber, String imageName, WorkingStatus workingStatus) {
+    public ComponentInfo(FaultType faultType, String componentName, String sequenceNumber, WorkingStatus workingStatus) {
         this.faultType = faultType;
         this.componentName = componentName;
         this.sequenceNumber = sequenceNumber;
-        this.imageName = imageName;
+        this.workingStatus = workingStatus;
+    }
+
+    public ComponentInfo(Long componentId, FaultType faultType, String componentName, String sequenceNumber, WorkingStatus workingStatus) {
+        this.componentId = componentId;
+        this.faultType = faultType;
+        this.componentName = componentName;
+        this.sequenceNumber = sequenceNumber;
         this.workingStatus = workingStatus;
     }
 }
