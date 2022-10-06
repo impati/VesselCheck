@@ -1,18 +1,20 @@
 package com.example.vesselcheck.domain.Repository;
 
-import com.example.vesselcheck.domain.entity.Component;
+import com.example.vesselcheck.domain.entity.Components;
 import com.example.vesselcheck.domain.entity.FaultType;
-import com.example.vesselcheck.domain.entity.QComponent;
+import com.example.vesselcheck.domain.entity.QComponents;
 import com.example.vesselcheck.domain.entity.WorkingStatus;
-import com.example.vesselcheck.domain.service.ComponentSearchCond;
+import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static com.example.vesselcheck.domain.entity.QComponent.component;
+import static com.example.vesselcheck.domain.entity.QComponents.components;
+
 
 /**
  * TODO : 블락 정보 검색 추가해야함.
@@ -22,8 +24,8 @@ import static com.example.vesselcheck.domain.entity.QComponent.component;
 public class ComponentQueryDslImpl implements ComponentQueryDsl{
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public List<Component> searchComponent(ComponentSearchCond componentSearchCond) {
-        return jpaQueryFactory.selectFrom(component)
+    public List<Components> searchComponent(ComponentSearchCond componentSearchCond) {
+        return jpaQueryFactory.selectFrom(components)
                 .where(faultTypeEq(componentSearchCond.getFaultType()),
                         componentNameEq(componentSearchCond.getComponentName()),
                         sequenceNumberEq(componentSearchCond.getSequenceNumber()),
@@ -32,16 +34,16 @@ public class ComponentQueryDslImpl implements ComponentQueryDsl{
     }
 
     private BooleanExpression faultTypeEq(FaultType faultType){
-        return faultType == null ? null : component.faultType.eq(faultType);
+        return faultType == null ? null : components.faultType.eq(faultType);
     }
     private BooleanExpression componentNameEq(String name){
-        return name == null ? null : component.componentName.eq(name);
+        return !StringUtils.hasText(name) ? null : components.componentName.eq(name);
     }
     private BooleanExpression sequenceNumberEq(String number){
-        return number == null ? null : component.sequenceNumber.eq(number);
+        return !StringUtils.hasText(number)? null : components.sequenceNumber.eq(number);
     }
     private BooleanExpression workingStatusEq(WorkingStatus status){
-        return status == null ? null : component.workingStatus.eq(status);
+        return status == null ? null : components.workingStatus.eq(status);
     }
 
 

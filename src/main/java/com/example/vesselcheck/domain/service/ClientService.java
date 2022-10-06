@@ -1,7 +1,7 @@
 package com.example.vesselcheck.domain.service;
 
-import com.example.vesselcheck.domain.entity.Client;
 import com.example.vesselcheck.domain.entity.ClientType;
+import com.example.vesselcheck.domain.service.Dto.ClientInfo;
 
 public interface ClientService {
      ClientInfo clientInfo(Long clientId);

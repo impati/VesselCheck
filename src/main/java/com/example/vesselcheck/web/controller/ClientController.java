@@ -1,8 +1,8 @@
 package com.example.vesselcheck.web.controller;
 
-import com.example.vesselcheck.domain.service.ClientInfo;
+import com.example.vesselcheck.domain.service.Dto.ClientInfo;
 import com.example.vesselcheck.domain.service.ClientService;
-import com.example.vesselcheck.domain.service.VesselInfo;
+import com.example.vesselcheck.domain.service.Dto.VesselInfo;
 import com.example.vesselcheck.domain.service.VesselService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class ClientController {
         model.addAttribute("clientInfo",clientInfo);
         model.addAttribute("vessels",
                 vesselService.searchVessel(clientId).stream()
-                        .map(v->new VesselInfo(v.getIMO(),v.getVesselName(),v.getVesselType())).collect(Collectors.toList()));
+                        .map(v->new VesselInfo(v.getId(),v.getIMO(),v.getVesselName(),v.getVesselType())).collect(Collectors.toList()));
         log.info("clientInfo {}",clientInfo);
         return "client/clientPage";
     }

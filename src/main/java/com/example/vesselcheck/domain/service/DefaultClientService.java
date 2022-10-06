@@ -3,14 +3,11 @@ package com.example.vesselcheck.domain.service;
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.entity.Client;
 import com.example.vesselcheck.domain.entity.ClientType;
-import com.example.vesselcheck.domain.entity.Inspector;
+import com.example.vesselcheck.domain.service.Dto.ClientInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 
 @Slf4j
 @RequiredArgsConstructor

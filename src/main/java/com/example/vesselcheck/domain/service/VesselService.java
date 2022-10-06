@@ -7,6 +7,8 @@ import com.example.vesselcheck.domain.entity.Client;
 import com.example.vesselcheck.domain.entity.ClientVessel;
 import com.example.vesselcheck.domain.entity.Vessel;
 import com.example.vesselcheck.domain.entity.VesselType;
+import com.example.vesselcheck.domain.service.Dto.VesselInfo;
+import com.example.vesselcheck.domain.service.Dto.VesselSearchCond;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -57,8 +59,9 @@ public class VesselService {
     /**
      * 선박 정보
      */
-    public VesselInfo vesselInfo(String IMO , String vesselName, VesselType vesselType){
-        return new VesselInfo(IMO,vesselName,vesselType);
+    public VesselInfo vesselInfo(Long vesselId){
+        Vessel vessel = vesselRepository.findById(vesselId).orElse(null);
+        return new VesselInfo(vessel.getId(),vessel.getVesselName(),vessel.getIMO(),vessel.getVesselType());
     }
 
 
@@ -69,7 +72,7 @@ public class VesselService {
      *
      * TODO : 더 좋은 방법 없을까? 현재 O(n^2)
      */
-    public List<VesselInfo> vesselInfoList (Long clientId,VesselSearchCond vesselSearchCond ){
+    public List<VesselInfo> vesselInfoList (Long clientId, VesselSearchCond vesselSearchCond ){
         List<Vessel> vesselList = vesselRepository.searchVessel(vesselSearchCond);
         List<ClientVessel> clientVessels = clientVesselRepository.findByVesselListAndClient(clientId, vesselList);
         return vesselList.stream().map(v->new VesselInfo(v.getId(),v.getIMO(),v.getVesselName(),v.getVesselType(),isOwner(v,clientVessels))).collect(Collectors.toList());

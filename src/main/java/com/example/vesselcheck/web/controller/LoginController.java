@@ -1,9 +1,8 @@
 package com.example.vesselcheck.web.controller;
 
 
-import com.example.vesselcheck.domain.entity.Client;
 import com.example.vesselcheck.domain.entity.ClientType;
-import com.example.vesselcheck.domain.service.ClientInfo;
+import com.example.vesselcheck.domain.service.Dto.ClientInfo;
 import com.example.vesselcheck.domain.service.ClientService;
 import com.example.vesselcheck.web.config.SessionConst;
 import lombok.AllArgsConstructor;
@@ -16,9 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;

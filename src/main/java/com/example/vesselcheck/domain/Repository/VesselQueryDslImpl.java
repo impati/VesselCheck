@@ -1,9 +1,8 @@
 package com.example.vesselcheck.domain.Repository;
 
-import com.example.vesselcheck.domain.entity.QVessel;
 import com.example.vesselcheck.domain.entity.Vessel;
 import com.example.vesselcheck.domain.entity.VesselType;
-import com.example.vesselcheck.domain.service.VesselSearchCond;
+import com.example.vesselcheck.domain.service.Dto.VesselSearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

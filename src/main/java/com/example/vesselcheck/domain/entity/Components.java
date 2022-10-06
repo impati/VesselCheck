@@ -1,14 +1,13 @@
 package com.example.vesselcheck.domain.entity;
 
-import com.example.vesselcheck.domain.service.ComponentUpdateDto;
+import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class Component extends BaseEntity {
+public class Components extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "component_id")
@@ -25,12 +24,12 @@ public class Component extends BaseEntity {
     @JoinColumn(name="block_id")
     private Block block;
 
-    public static Component createComponent(Block block , String componentName, String sequenceNumber){
-        Component component = new Component();
-        component.componentName = componentName;
-        component.block = block;
-        component.sequenceNumber = sequenceNumber;
-        return component;
+    public static Components createComponent(Block block , String componentName, String sequenceNumber){
+        Components components = new Components();
+        components.componentName = componentName;
+        components.block = block;
+        components.sequenceNumber = sequenceNumber;
+        return components;
     }
 
 

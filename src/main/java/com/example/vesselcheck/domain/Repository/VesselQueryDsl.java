@@ -1,7 +1,7 @@
 package com.example.vesselcheck.domain.Repository;
 
 import com.example.vesselcheck.domain.entity.Vessel;
-import com.example.vesselcheck.domain.service.VesselSearchCond;
+import com.example.vesselcheck.domain.service.Dto.VesselSearchCond;
 
 import java.util.List;
 

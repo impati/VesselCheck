@@ -1,11 +1,9 @@
 package com.example.vesselcheck.support;
 
-import com.example.vesselcheck.domain.Repository.ClientRepository;
-import com.example.vesselcheck.domain.Repository.ClientVesselRepository;
-import com.example.vesselcheck.domain.entity.ClientType;
-import com.example.vesselcheck.domain.entity.Vessel;
-import com.example.vesselcheck.domain.entity.VesselType;
+import com.example.vesselcheck.domain.Repository.*;
+import com.example.vesselcheck.domain.entity.*;
 import com.example.vesselcheck.domain.service.ClientService;
+import com.example.vesselcheck.domain.service.ComponentService;
 import com.example.vesselcheck.domain.service.VesselService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,11 @@ public class PostData {
     private final ClientService clientService;
     private final VesselService vesselService;
     private final ClientVesselRepository clientVesselRepository;
-
+    private final ComponentService componentService;
+    private final VesselRepository vesselRepository;
+    private final ComponentRepository componentRepository;
+    private final ClientRepository clientRepository;
+    private final BlockRepository blockRepository;
     @EventListener(ApplicationReadyEvent.class)
     public void postData(){
         clientService.clientRegister("wnsduds1","sejong","yongs170@naver.com", ClientType.INSPECTOR);
@@ -34,11 +36,24 @@ public class PostData {
         VesselType vesselTypes[] = new VesselType[]{VesselType.A,VesselType.B,VesselType.C,VesselType.A,VesselType.B};
 
         /**
-         * 선박 등록
+         * 선박 등록 , 블록 , 부품 등록
          */
         for(int i =0;i<5;i++){
-            vesselService.vesselRegister(IMOs[i],names[i],vesselTypes[i]);
+            Vessel vessel = Vessel.createVessel(IMOs[i],names[i],vesselTypes[i]);
+            vesselRepository.save(vessel);
+
+            if(i == 0) {
+                Block block = Block.createBlock(vessel, clientRepository.findById(1L).orElse(null), "aaa", WorkingStep.WSA);
+                blockRepository.save(block);
+                Components components1 = Components.createComponent(block, "보온채", "11-11");
+                Components components2 = Components.createComponent(block, "배관", "22-22");
+                Components components3 = Components.createComponent(block, "모재", "33-33");
+                componentRepository.save(components1);
+                componentRepository.save(components2);
+                componentRepository.save(components3);
+            }
         }
+
 
 
 

@@ -5,6 +5,9 @@ import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.Repository.ComponentRepository;
 import com.example.vesselcheck.domain.Repository.VesselRepository;
 import com.example.vesselcheck.domain.entity.*;
+import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
+import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
+import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,29 +31,29 @@ public class ComponentService {
     /**
      * 부품 등록 ..TODO :이미지 업로드 및 추가 기능 ..
      */
-    public Component registerComponent(Long blockId,String componentName,String sequenceNumber) {
-        Block block = blockRepository.findById(blockId).orElse(null);
-        Component  component = Component.createComponent(block,componentName,sequenceNumber);
-        componentRepository.save(component);
+    public Components registerComponent(String blockName, String componentName, String sequenceNumber) {
+        Block block = blockRepository.findBlockByBlockName(blockName);
+        Components components = Components.createComponent(block,componentName,sequenceNumber);
+        componentRepository.save(components);
         /**
          * 이미지 처리 및 모델 추론 .
          */
-        return component;
+        return components;
     }
 
     /**
      * 부품 수정 ..TODO :이미지 재 업로드 및 추가 기능 ..
      */
-    public Component updateComponent(Long componentId,ComponentUpdateDto updateDto){
-        Component component = componentRepository.findById(componentId).orElse(null);
-        component.update(updateDto);
-        return component;
+    public Components updateComponent(Long componentId, ComponentUpdateDto updateDto){
+        Components components = componentRepository.findById(componentId).orElse(null);
+        components.update(updateDto);
+        return components;
     }
 
     /**
      * 부품 조회
      */
-    public List<Component> searchComponent(ComponentSearchCond componentSearchCond){
+    public List<Components> searchComponent(ComponentSearchCond componentSearchCond){
         return componentRepository.searchComponent(componentSearchCond);
     }
 
@@ -64,6 +67,13 @@ public class ComponentService {
         Block block = Block.createBlock(vessel,client,blockName,workingStep);
         blockRepository.save(block);
         return block;
+    }
+
+
+    public ComponentInfo componentInfo(Long componentId){
+        Components components = componentRepository.findById(componentId).orElse(null);
+        return new ComponentInfo(components.getFaultType(),components.getComponentName(),
+                components.getSequenceNumber(),components.getImageName(),components.getWorkingStatus());
     }
 
 

@@ -1,17 +1,12 @@
 package com.example.vesselcheck.web.controller;
 
-import com.example.vesselcheck.domain.Repository.ClientVesselRepository;
-import com.example.vesselcheck.domain.entity.ClientType;
-import com.example.vesselcheck.domain.entity.ClientVessel;
-import com.example.vesselcheck.domain.entity.VesselType;
-import com.example.vesselcheck.domain.service.ClientVesselService;
-import com.example.vesselcheck.domain.service.VesselInfo;
-import com.example.vesselcheck.domain.service.VesselSearchCond;
-import com.example.vesselcheck.domain.service.VesselService;
+import com.example.vesselcheck.domain.Repository.ClientRepository;
+import com.example.vesselcheck.domain.entity.*;
+import com.example.vesselcheck.domain.service.*;
+import com.example.vesselcheck.domain.service.Dto.VesselInfo;
+import com.example.vesselcheck.domain.service.Dto.VesselSearchCond;
 import com.example.vesselcheck.web.config.SessionConst;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -29,6 +23,33 @@ public class VesselController {
 
     private final VesselService vesselService;
     private final ClientVesselService clientVesselService;
+    private final ClientService clientService;
+    private final ClientRepository clientRepository;
+
+    /**
+     * 사용자 선박 페이지
+     */
+    @GetMapping("/{vesselId}")
+    public String vesselPage(@PathVariable Long vesselId,
+                             @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId , Model model){
+
+        Client client = clientRepository.findById(clientId).orElse(null);
+        VesselInfo vesselInfo = vesselService.vesselInfo(vesselId);
+        model.addAttribute("vesselInfo",vesselInfo);
+
+        if(client instanceof Manufacturer){
+            return "vessel/Manufacturer";
+        }
+        else{
+
+
+
+            return "vessel/Inspector";
+        }
+
+    }
+
+
     /**
      * 선박 조회
      */

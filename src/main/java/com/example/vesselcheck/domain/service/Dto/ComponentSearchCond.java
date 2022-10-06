@@ -1,4 +1,4 @@
-package com.example.vesselcheck.domain.service;
+package com.example.vesselcheck.domain.service.Dto;
 
 import com.example.vesselcheck.domain.entity.FaultType;
 import com.example.vesselcheck.domain.entity.WorkingStatus;

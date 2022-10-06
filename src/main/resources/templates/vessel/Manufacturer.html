@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:insert="~{fragment/header :: header}"></div>
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+
+    <!-- Content Start -->
+    <div class="content">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h4 class="mb-4" th:text="${vesselInfo.vesselName}"></h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>선명</th>
+                            <th>선박 IMO</th>
+                            <th>선박 종류</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${vesselInfo.vesselName}"></td>
+                            <td th:text="${vesselInfo.IMO}"></td>
+                            <td th:text="${vesselInfo.vesselType}"></td>
+                            <!-- <td th:text="${clientInfo.currentRating}"></td> -->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+
+
+
+
+
+
+
+    </div>
+    <!-- Content End -->
+    <!-- Back to Top -->
+</div>
+<!-- JavaScript Libraries -->
+<div th:insert="~{fragment/libraries :: libraries}"></div>
+<!-- Template Javascript -->
+<script src="/js/main.js"></script>
+</body>
+</html>

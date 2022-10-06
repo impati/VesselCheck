@@ -1,4 +1,4 @@
-package com.example.vesselcheck.domain.service;
+package com.example.vesselcheck.domain.service.Dto;
 
 import com.example.vesselcheck.domain.entity.VesselType;
 import lombok.AllArgsConstructor;

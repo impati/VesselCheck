@@ -1,4 +1,4 @@
-package com.example.vesselcheck.domain.service;
+package com.example.vesselcheck.domain.service.Dto;
 
 import com.example.vesselcheck.domain.entity.*;
 
@@ -17,14 +17,13 @@ public class ClientInfo {
     private String email;
     private RankPosition rankPosition;
     private Specialty specialty;
-
     public ClientInfo(Client client) {
         this.name = client.getName();
         this.belongs = client.getBelongs();
         this.email = client.getEmail();
 
-//        if(client instanceof Manufacturer) this.specialty = ((Manufacturer)client).getSpecialty();
-//        else this.rankPosition = ((Inspector)client).getRankPosition();
+        if(client instanceof Manufacturer) this.specialty = ((Manufacturer)client).getSpecialty();
+        else this.rankPosition = ((Inspector)client).getRankPosition();
 
     }
 }
