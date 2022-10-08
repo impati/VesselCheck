@@ -1,9 +1,6 @@
 package com.example.vesselcheck.domain.Repository;
 
-import com.example.vesselcheck.domain.entity.Components;
-import com.example.vesselcheck.domain.entity.FaultType;
-import com.example.vesselcheck.domain.entity.QComponents;
-import com.example.vesselcheck.domain.entity.WorkingStatus;
+import com.example.vesselcheck.domain.entity.*;
 import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -13,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static com.example.vesselcheck.domain.entity.QBlock.block;
 import static com.example.vesselcheck.domain.entity.QComponents.components;
 
 
@@ -26,7 +24,11 @@ public class ComponentQueryDslImpl implements ComponentQueryDsl{
     @Override
     public List<Components> searchComponent(ComponentSearchCond componentSearchCond) {
         return jpaQueryFactory.selectFrom(components)
-                .where(faultTypeEq(componentSearchCond.getFaultType()),
+                .join(components.block, block)
+                .where(
+                        block.client.id.eq(componentSearchCond.getClientId()),
+                        block.vessel.id.eq(componentSearchCond.getVesselId()),
+                        faultTypeEq(componentSearchCond.getFaultType()),
                         componentNameEq(componentSearchCond.getComponentName()),
                         sequenceNumberEq(componentSearchCond.getSequenceNumber()),
                                 workingStatusEq(componentSearchCond.getWorkingStatus()))

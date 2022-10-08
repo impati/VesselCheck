@@ -68,8 +68,11 @@ public class ComponentController {
                                   @ModelAttribute ComponentSearchCond componentSearchCond,
                                   Model model){
 
-        if(!isInspector(clientId))return "Not Allow";
+        if(!isInspector(clientId)) return "Not Allow";
 
+
+        componentSearchCond.setClientId(clientId);
+        componentSearchCond.setVesselId(vesselId);
 
         model.addAttribute("workingStatusList", WorkingStatus.values());
         model.addAttribute("FaultTypeList", FaultType.values());
@@ -89,8 +92,6 @@ public class ComponentController {
      * 부품 업로드
      *
      */
-
-
     @GetMapping("/component/register/{vesselId}")
     public String componentRegisterPage(@PathVariable Long vesselId ,
                                         @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId,

@@ -3,6 +3,7 @@ package com.example.vesselcheck.web.controller;
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.entity.*;
 import com.example.vesselcheck.domain.service.*;
+import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.example.vesselcheck.domain.service.Dto.VesselInfo;
 import com.example.vesselcheck.domain.service.Dto.VesselSearchCond;
 import com.example.vesselcheck.web.config.SessionConst;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -25,25 +27,29 @@ public class VesselController {
     private final ClientVesselService clientVesselService;
     private final ClientService clientService;
     private final ClientRepository clientRepository;
-
+    private final ComponentService componentService;
     /**
      * 사용자 선박 페이지
      */
     @GetMapping("/{vesselId}")
     public String vesselPage(@PathVariable Long vesselId,
-                             @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId , Model model){
+                             @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId ,
+                             @ModelAttribute ComponentSearchCond componentSearchCond,
+                             Model model){
 
         Client client = clientRepository.findById(clientId).orElse(null);
         VesselInfo vesselInfo = vesselService.vesselInfo(vesselId);
         model.addAttribute("vesselInfo",vesselInfo);
 
         if(client instanceof Manufacturer){
+
+            componentSearchCond.setVesselId(vesselId);
+            componentSearchCond.setClientId(clientId);
+            componentSearchCond.setWorkingStatus(WorkingStatus.W);
+            model.addAttribute("components",componentService.searchComponent(componentSearchCond));
             return "vessel/Manufacturer";
         }
         else{
-
-
-
             return "vessel/Inspector";
         }
 
@@ -55,7 +61,8 @@ public class VesselController {
      */
     @GetMapping("/vessels")
     public String searchVessel(@ModelAttribute VesselSearchCond vesselSearchCond ,
-                               @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId , Model model){
+                               @SessionAttribute(name = SessionConst.LOGIN_CLIENT) Long clientId ,
+                               Model model){
         log.info("vesselSearchCond = [{}]",vesselSearchCond);
         List<VesselInfo> vesselInfos = vesselService.vesselInfoList(clientId, vesselSearchCond);
         log.info("vesselInfos = [{}]",vesselInfos);
