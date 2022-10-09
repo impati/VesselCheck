@@ -11,8 +11,6 @@ public class Block extends BaseEntity{
     @Column(name = "block_id")
     private Long id;
 
-    private String blockName;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vessel_id")
@@ -22,6 +20,8 @@ public class Block extends BaseEntity{
     @JoinColumn(name = "client_id")
     private Client client;
 
+
+    private String blockName;
     private WorkingStep workingStep;
 
 
