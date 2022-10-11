@@ -30,6 +30,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
+    implementation 'mysql:mysql-connector-java'
+
 
 
 
