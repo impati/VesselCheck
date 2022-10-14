@@ -22,7 +22,7 @@ public abstract class Client  {
     private String name;
     private String belongs;
     private String email;
-
+    private Long kakaoId;
 
     public static Client createClient(String name,String belongs,String email,ClientType clientType){
         if(clientType == ClientType.INSPECTOR){

@@ -20,7 +20,7 @@
         <div class="col">
             <button class="w-100 btn btn-dark btn-lg"
                     onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/login}'|" type="button">
+                    th:onclick="|location.href='@{https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code (REST_API_KEY=${client},REDIRECT_URI=${redirect})}'|" type="button">
                 로그인
             </button>
         </div>

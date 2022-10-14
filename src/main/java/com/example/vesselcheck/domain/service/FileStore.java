@@ -19,6 +19,7 @@ public class FileStore {
     public String getFullPath(String filename) {
         return fileDir + filename;
     }
+
     public List<Components> storeFiles(Block block , ComponentForm componentForm) throws IOException {
         List<Components> componentsList = new ArrayList<>();
         for (int i = 0 ; i <  componentForm.getImageUploadName().size();i++) {
