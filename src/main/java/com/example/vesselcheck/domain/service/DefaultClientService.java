@@ -23,6 +23,7 @@ public class DefaultClientService implements ClientService {
 
     @Override
     public ClientInfo clientInfoBy(Long kakaoId) {
+        log.info("kakaoId [{}]",kakaoId);
         Client client =  clientRepository.findByKakaoId(kakaoId).orElse(null);
         ClientInfo clientInfo = new ClientInfo(client);
         return  clientInfo;

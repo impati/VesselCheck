@@ -77,11 +77,11 @@ public class LoginController {
         ResponseUser result = getId(getToken(code));
         Optional<Client> client = clientRepository.findByKakaoId(result.getId());
         if(client.isPresent()){
-            Long id = client.get().getId();
+            Long kakaoId = client.get().getKakaoId();
             //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
             HttpSession session = req.getSession();
             //세션에 로그인 회원 정보 보관
-            session.setAttribute(SessionConst.LOGIN_CLIENT, id);
+            session.setAttribute(SessionConst.LOGIN_CLIENT, kakaoId);
             return "redirect:/";
         }
         else{
