@@ -40,6 +40,7 @@ public class LoginController {
     private final String clientId = "299b0425b0382132eb1f239f7a0f4ae1";
     private final String redirectId = "http://localhost:8080/client/add";
     private final String clientSecret = "vEX71vGS4QzFBz2BFvdIFzfDEFot1fP3";
+    private final String logoutRedirect = "http://localhost:8080/logout";
     private final ClientRepository clientRepository;
     private final ClientService clientService;
     @GetMapping("/")
@@ -53,13 +54,15 @@ public class LoginController {
             ClientInfo clientInfo = clientService.clientInfoBy(kakaoId);
             model.addAttribute("client",clientInfo);
             model.addAttribute("clientId",clientInfo.getClientId());
+            model.addAttribute("apikey",clientId);
+            model.addAttribute("logout",logoutRedirect);
             return "loginHome";
         }
     }
     /**
      * 로그 아웃.
      */
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
