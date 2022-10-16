@@ -14,13 +14,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -88,6 +101,8 @@ public class ComponentController {
         return "component/components";
     }
 
+
+
     /**
      * 부품 업로드
      *
@@ -128,12 +143,30 @@ public class ComponentController {
     }
 
 
+    /**
+     * 이미지 응답
+     */
     @ResponseBody
     @GetMapping("/images/{filename}")
     public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
+
+    /**
+     * 최신 버전
+     * 이미지 응답.
+     */
+    @ResponseBody
+    @GetMapping(value = "/image/{filename}")
+    public ResponseEntity<Resource> userSearch(@PathVariable String filename) throws IOException {
+        String inputFile = fileStore.getFullPath(filename);
+        Path path = new File(inputFile).toPath();
+        FileSystemResource resource = new FileSystemResource(path);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
+                .body(resource);
+    }
 
 
 
@@ -150,6 +183,7 @@ public class ComponentController {
         private String blockName;
         private WorkingStep workingStep;
     }
+
 
 
 

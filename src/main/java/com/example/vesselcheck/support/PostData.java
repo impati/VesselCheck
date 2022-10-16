@@ -46,7 +46,7 @@ public class PostData {
             vesselRepository.save(vessel);
 
             if(i == 0) {
-                Block block = Block.createBlock(vessel, clientRepository.findById(1L).orElse(null), "aaa", WorkingStep.WSA);
+                Block block = Block.createBlock(vessel, clientRepository.findById(3L).orElse(null), "aaa", WorkingStep.WSA);
                 blockRepository.save(block);
                 Components components1 = Components.createComponent(block, "보온채", "11-11");
                 Components components2 = Components.createComponent(block, "배관", "22-22");

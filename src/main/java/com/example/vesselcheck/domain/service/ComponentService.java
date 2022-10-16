@@ -10,11 +10,19 @@ import com.example.vesselcheck.domain.service.Dto.ComponentForm;
 import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
 import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -30,6 +38,8 @@ public class ComponentService {
     private final VesselRepository vesselRepository;
     private final ClientRepository clientRepository;
     private final FileStore fileStore;
+    private final static String hostName = "http://localhost:8080/images/";
+    private final static String imageServerHostName = "http://localhost:9090/";
     /**
      * 부품 등록 ..TODO :이미지 업로드 및 추가 기능 ..
      */
@@ -77,7 +87,7 @@ public class ComponentService {
     public ComponentInfo componentInfo(Long componentId){
         Components components = componentRepository.findById(componentId).orElse(null);
         return new ComponentInfo(components.getId(),components.getFaultType(),components.getComponentName(),
-                components.getSequenceNumber(),components.getUploadImageName(),components.getStoreImageName(),components.getWorkingStatus());
+                components.getSequenceNumber(),components.getUploadImageName(),components.getImageUrlPath(),components.getWorkingStatus());
     }
 
     /**
@@ -86,11 +96,49 @@ public class ComponentService {
     public void registerComponentList(ComponentForm componentForm){
         Block block = blockRepository.findBlockByBlockName(componentForm.getBlockName());
         try {
+            //부품 이미지 저장.
             List<Components> componentsList = fileStore.storeFiles(block, componentForm);
+            //불량 판정.
+            for (Components components : componentsList) {
+                decisionV1(components);
+            }
+            //
             componentRepository.saveAll(componentsList);
         }catch(Exception e){
             throw new FileUploadExceptionCustom("파일 업로드 에러");
         }
     }
 
+
+    private void decisionV1(Components components){
+
+        String imagePath = hostName + components.getStoreImageName();
+
+
+        URI uri = UriComponentsBuilder.fromUriString(imageServerHostName +"v1/decision")
+                .encode()
+                .build()
+                .toUri();
+
+        ResponseEntity<componentImageResponse> result =
+                new RestTemplate().exchange(new RequestEntity<>(new componentImageRequest(imagePath), HttpMethod.POST, uri), componentImageResponse.class);
+
+        log.info("result = [{}]",result.getBody());
+        componentImageResponse body = result.getBody();
+        components.update(body.getClass_id(),body.getImage_url());
+    }
+
+
+
+
+    @Data
+    static class componentImageResponse{
+        private Integer class_id;
+        private String image_url;
+    }
+    @Data
+    @AllArgsConstructor
+    static class componentImageRequest{
+        private String image_path;
+    }
 }

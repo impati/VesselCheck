@@ -20,7 +20,7 @@ public class Components extends BaseEntity {
     private String uploadImageName;
     private String storeImageName;
     private WorkingStatus workingStatus;
-
+    private String imageUrlPath;
     @ManyToOne
     @JoinColumn(name="block_id")
     private Block block;
@@ -43,6 +43,22 @@ public class Components extends BaseEntity {
     }
 
 
+
+    public void update(Integer classId , String urlPath){
+        if(classId == -1){
+            this.faultType = FaultType.GOOD;
+            this.workingStatus = WorkingStatus.W;
+            this.imageUrlPath = urlPath;
+        }
+        else{
+            this.faultType = FaultType.F1;
+            this.workingStatus = WorkingStatus.A;
+            this.imageUrlPath = urlPath;
+        }
+
+
+
+    }
     public void update(ComponentUpdateDto updateDto){
         this.componentName = updateDto.getComponentName();
         this.sequenceNumber = updateDto.getSequenceNumber();

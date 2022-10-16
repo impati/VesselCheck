@@ -15,7 +15,7 @@ public class ComponentInfo {
     private String componentName;//enum?
     private String sequenceNumber;
     private String uploadImageName;
-    private String storeImageName;
+    private String storeImageUrl;
     private WorkingStatus workingStatus;
 
     public ComponentInfo(FaultType faultType, String componentName, String sequenceNumber, WorkingStatus workingStatus) {
