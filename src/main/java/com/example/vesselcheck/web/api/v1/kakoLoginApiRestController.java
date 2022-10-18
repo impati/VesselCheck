@@ -1,10 +1,7 @@
 package com.example.vesselcheck.web.api.v1;
 
 import com.example.vesselcheck.domain.service.ClientService;
-import com.example.vesselcheck.web.api.dto.JustRequest;
-import com.example.vesselcheck.web.api.dto.KakaoSimpleInfoResponse;
-import com.example.vesselcheck.web.api.dto.ReturnTokenRequest;
-import com.example.vesselcheck.web.api.dto.ReturnTokenResponse;
+import com.example.vesselcheck.web.api.dto.*;
 import com.example.vesselcheck.web.dto.ResponseKakaoClient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,11 +33,11 @@ public class kakoLoginApiRestController {
      * @param returnTokenRequest
      * @return ReturnTokenResponse
      */
-    @PostMapping("/get_token")
+    @PostMapping("/v1/get_token")
     public ReturnTokenResponse returnToken(@RequestBody ReturnTokenRequest returnTokenRequest){
         log.info("returnTokenRequest [{}]",returnTokenRequest.getCode());
         ReturnTokenResponse returnTokenResponse = getToken(returnTokenRequest.getCode());
-        ResponseKakaoClient responseKakaoClient = getId(returnTokenResponse.getAccess_token());
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(returnTokenResponse.getAccess_token());
         if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIs_our_client(false);
         else returnTokenResponse.setIs_our_client(true);
         return returnTokenResponse;
@@ -67,32 +64,25 @@ public class kakoLoginApiRestController {
     }
 
 
-    /**
-     *  카카오에 사용자 정보를 요청
-     * @param token
-     * @return
-     */
-    private ResponseKakaoClient getId(String token){
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://kapi.kakao.com/v2/user/me")
-                .build()
-                .toUri();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization","Bearer " + token);
-        httpHeaders.set("Content-type","application/x-www-form-urlencoded;charset=utf-8");
-
-        RequestEntity requestEntity = new RequestEntity(httpHeaders, HttpMethod.POST,uri);
-        ResponseEntity<ResponseKakaoClient> result = new RestTemplate().exchange(requestEntity, ResponseKakaoClient.class);
-        log.info("id result = [{}]",result);
-        return result.getBody();
-    }
 
     /**
      * 회원 가입시 기본 정보 내려주는  api
      */
-    @GetMapping("/join_info")
+    @GetMapping("/v1/join")
     public KakaoSimpleInfoResponse client_info(@RequestBody JustRequest justRequest){
-        ResponseKakaoClient responseKakaoClient = getId(justRequest.getAccess_token());
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(justRequest.getAccess_token());
         return new KakaoSimpleInfoResponse(responseKakaoClient.getKakao_account().getProfile().getNickname(),responseKakaoClient.getKakao_account().getEmail());
     }
+
+    /**
+     *
+     * 회원 가입
+     */
+    @PostMapping
+    public void client_infoSave(@RequestBody ClientSaveRequest clientSaveRequest){
+        clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
+                clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClient_type(),
+                KakaoLogInConst.getId(clientSaveRequest.getAccess_token()).getId());
+    }
+
 }

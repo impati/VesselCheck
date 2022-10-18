@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 토큰을 응답해줌
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

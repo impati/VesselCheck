@@ -8,6 +8,6 @@ import com.example.vesselcheck.web.dto.JoinForm;
 public interface ClientService {
      ClientInfo clientInfo(Long clientId);
      ClientInfo clientInfoBy(Long kakaoId);
-     Client clientRegister(String name, String belongs, String email, ClientType clientType,Long kakaoId);
+     Client clientRegister(String name, String belongs, String email,String duty, ClientType clientType,Long kakaoId);
      Long clientRegister(String name, String belongs, String email, ClientType clientType);
 }

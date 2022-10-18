@@ -32,9 +32,13 @@ public class DefaultClientService implements ClientService {
         }
     }
 
+
+    /**
+     *RestAPI 버전
+     */
     @Override
-    public Client clientRegister(String name, String belongs, String email, ClientType clientType, Long kakaoId) {
-        Client client = Client.createClient(name,belongs,email,clientType);
+    public Client clientRegister(String name, String belongs, String email,String duty, ClientType clientType, Long kakaoId) {
+        Client client = Client.createClient(name,belongs,email,duty,clientType);
         client.setKakaoId(kakaoId);
         clientRepository.save(client);
         return client;
