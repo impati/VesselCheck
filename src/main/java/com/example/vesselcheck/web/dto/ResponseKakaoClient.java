@@ -10,20 +10,8 @@ public class ResponseKakaoClient {
         else return false;
     }
     public Boolean isPossibleNickName(){
-        if(kakao_account.profile_nickname_needs_agreement)return true;
+        if(kakao_account.getProfile_nickname_needs_agreement())return true;
         else return false;
     }
-    @Data
-    static class KakaoAccount{
-        private String email;
-        private Boolean is_email_valid;
-        private Boolean email_needs_agreement;
-        private Boolean profile_nickname_needs_agreement;
-        private Profile profile;
-    }
 
-    @Data
-    static class Profile{
-        private String nickname;
-    }
 }
