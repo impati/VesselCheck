@@ -10,14 +10,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
-                .order(1)
-                .addPathPatterns("/**")
-                .excludePathPatterns(//비 로그인 사용자가 접속할 수 있는 페이지
-                        "/", "/members/add", "/login", "/logout",
-                        "/css/**", "/*.ico", "/error","/client/add","/images/**"
-                        ,"/image/**"
-                );
+//        registry.addInterceptor(new LoginInterceptor())
+//                .order(1)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(//비 로그인 사용자가 접속할 수 있는 페이지
+//                        "/", "/members/add", "/login", "/logout",
+//                        "/css/**", "/*.ico", "/error","/client/add","/images/**"
+//                        ,"/image/**"
+//                );
     }
 
 }

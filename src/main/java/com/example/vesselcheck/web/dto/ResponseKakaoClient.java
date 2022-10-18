@@ -2,7 +2,7 @@ package com.example.vesselcheck.web.dto;
 
 import lombok.Data;
 @Data
-public class ResponseUser {
+public class ResponseKakaoClient {
     private Long id;
     private KakaoAccount kakao_account;
     public Boolean isPossibleEmail(){

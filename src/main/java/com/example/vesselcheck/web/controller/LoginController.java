@@ -9,27 +9,18 @@ import com.example.vesselcheck.domain.service.ClientService;
 import com.example.vesselcheck.web.config.SessionConst;
 import com.example.vesselcheck.web.dto.JoinForm;
 import com.example.vesselcheck.web.dto.ResponseToken;
-import com.example.vesselcheck.web.dto.ResponseUser;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.vesselcheck.web.dto.ResponseKakaoClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.net.URI;
 import java.util.Optional;
 
@@ -76,8 +67,9 @@ public class LoginController {
      */
     @GetMapping("/client/add")
     public String clientAddPage(@RequestParam String code, HttpServletRequest req,Model model){
+        log.info("code = [{}]",code);
         // 토큰 -> 사용자 정보 받기
-        ResponseUser result = getId(getToken(code));
+        ResponseKakaoClient result = getId(getToken(code));
         Optional<Client> client = clientRepository.findByKakaoId(result.getId());
         if(client.isPresent()){
             Long kakaoId = client.get().getKakaoId();
@@ -107,7 +99,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    private ResponseUser getId(String token){
+    private ResponseKakaoClient getId(String token){
         URI uri = UriComponentsBuilder
                 .fromUriString("https://kapi.kakao.com/v2/user/me")
                 .build()
@@ -119,7 +111,7 @@ public class LoginController {
         httpHeaders.set("Content-type","application/x-www-form-urlencoded;charset=utf-8");
 
         RequestEntity requestEntity = new RequestEntity(httpHeaders, HttpMethod.POST,uri);
-        ResponseEntity<ResponseUser> result = new RestTemplate().exchange(requestEntity, ResponseUser.class);
+        ResponseEntity<ResponseKakaoClient> result = new RestTemplate().exchange(requestEntity, ResponseKakaoClient.class);
         log.info("id result = [{}]",result);
         return result.getBody();
     }

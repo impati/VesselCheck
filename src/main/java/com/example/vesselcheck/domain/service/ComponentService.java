@@ -39,7 +39,8 @@ public class ComponentService {
     private final ClientRepository clientRepository;
     private final FileStore fileStore;
     private final static String hostName = "http://localhost:8080/images/";
-    private final static String imageServerHostName = "http://localhost:9090/";
+    private final static String imageServerHostName = "http://34.64.185.37:9090/";
+
     /**
      * 부품 등록 ..TODO :이미지 업로드 및 추가 기능 ..
      */
