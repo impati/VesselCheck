@@ -21,7 +21,7 @@ spring: #???? ??
 
 
 file:
-  dir: /root/home/myboot/images/
+  dir: /home/myboot/images/
 
 server:
   port: 8080
