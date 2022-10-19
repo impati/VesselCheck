@@ -90,7 +90,7 @@ public class LoginController {
     @PostMapping("/client/add")
     public String kakoJoin(@RequestParam Long kakaoId , @ModelAttribute JoinForm joinForm,HttpServletRequest req){
         log.info("joinForm = [{}]",joinForm);
-        Client client= clientService.clientRegister(joinForm.getName(),joinForm.getBelongs(),joinForm.getEmail(), joinForm.getClientType(),joinForm.getKakaoId());
+        Client client= clientService.clientRegister(joinForm.getName(),joinForm.getBelongs(),joinForm.getEmail(), "",joinForm.getClientType(),joinForm.getKakaoId());
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
         HttpSession session = req.getSession();
         //세션에 로그인 회원 정보 보관
