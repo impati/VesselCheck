@@ -1,11 +1,9 @@
 package com.example.vesselcheck.web.api.v1;
 
 import com.example.vesselcheck.domain.service.ClientService;
+import com.example.vesselcheck.domain.service.Dto.ClientInfo;
 import com.example.vesselcheck.web.api.dto.*;
 import com.example.vesselcheck.web.dto.ResponseKakaoClient;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +22,7 @@ import java.net.URI;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class kakoLoginApiRestController {
+public class ClientApiRestController {
 
     private final ClientService clientService;
 
@@ -69,7 +67,7 @@ public class kakoLoginApiRestController {
      * 회원 가입시 기본 정보 내려주는  api
      */
     @GetMapping("/v1/join")
-    public KakaoSimpleInfoResponse client_info(@RequestBody JustRequest justRequest){
+    public KakaoSimpleInfoResponse client_join(@RequestBody JustRequest justRequest){
         ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(justRequest.getAccess_token());
         return new KakaoSimpleInfoResponse(responseKakaoClient.getKakao_account().getProfile().getNickname(),responseKakaoClient.getKakao_account().getEmail());
     }
@@ -84,5 +82,17 @@ public class kakoLoginApiRestController {
                 clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClient_type(),
                 KakaoLogInConst.getId(clientSaveRequest.getAccess_token()).getId());
     }
+
+
+    /**
+     * 클라이언트 정보
+     */
+    @GetMapping("/v1/client")
+    public ClientInfoResponse client_info(@RequestBody JustRequest justRequest){
+        ClientInfo clientInfo = clientService.clientInfoBy(KakaoLogInConst.getId(justRequest.getAccess_token()).getId());
+        return new ClientInfoResponse(clientInfo.getName(),clientInfo.getEmail(),clientInfo.getBelongs(),clientInfo.getDuty(),clientInfo.getClientType());
+    }
+
+
 
 }
