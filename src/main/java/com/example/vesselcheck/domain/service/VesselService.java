@@ -54,6 +54,16 @@ public class VesselService {
         ClientVessel clientVessel = new ClientVessel(client,vessel);
         clientVesselRepository.save(clientVessel);
     }
+    /**
+     * 사용자 선박 추가 - IMO - ver
+     */
+    public void addVesselOfClient(String IMO,Long clientId){
+        Vessel vessel = vesselRepository.findByIMO(IMO).orElse(null);
+        Client  client  = clientRepository.findById(clientId).orElse(null);
+        ClientVessel clientVessel = new ClientVessel(client,vessel);
+        clientVesselRepository.save(clientVessel);
+    }
+
 
 
     /**
