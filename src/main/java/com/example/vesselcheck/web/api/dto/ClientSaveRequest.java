@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientSaveRequest extends JustRequest{
+public class ClientSaveRequest {
     private String name;
     private String email;
     private String belongs;

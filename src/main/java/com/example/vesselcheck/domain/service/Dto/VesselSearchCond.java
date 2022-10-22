@@ -15,4 +15,6 @@ public class VesselSearchCond {
     private String IMO;
     private String name;
     private VesselType vesselType;
+
+
 }

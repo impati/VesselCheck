@@ -15,5 +15,4 @@ public class ComponentSearchCond {
     private WorkingStatus workingStatus;
     private Long clientId;
     private Long vesselId;
-
 }

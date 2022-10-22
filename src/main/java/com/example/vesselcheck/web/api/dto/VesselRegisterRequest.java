@@ -4,7 +4,7 @@ import com.example.vesselcheck.domain.entity.VesselType;
 import lombok.Data;
 
 @Data
-public class VesselRegisterRequest extends JustRequest{
+public class VesselRegisterRequest{
     private String IMO;
     private String vessel_name;
     private VesselType vessel_type;

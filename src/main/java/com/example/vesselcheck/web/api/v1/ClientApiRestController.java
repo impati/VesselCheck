@@ -10,14 +10,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -38,6 +37,9 @@ public class ClientApiRestController {
         ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(returnTokenResponse.getAccess_token());
         if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIs_our_client(false);
         else returnTokenResponse.setIs_our_client(true);
+        returnTokenResponse.setName(responseKakaoClient.getKakao_account().getProfile().getNickname());
+        returnTokenResponse.setEmail(responseKakaoClient.getKakao_account().getEmail());
+        log.info("returnTokenResponse [{}]",returnTokenResponse);
         return returnTokenResponse;
     }
 
@@ -67,30 +69,42 @@ public class ClientApiRestController {
      * 회원 가입시 기본 정보 내려주는  api
      */
     @GetMapping("/v1/join")
-    public KakaoSimpleInfoResponse client_join(@RequestBody JustRequest justRequest){
-        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(justRequest.getAccess_token());
-        return new KakaoSimpleInfoResponse(responseKakaoClient.getKakao_account().getProfile().getNickname(),responseKakaoClient.getKakao_account().getEmail());
+    public KakaoSimpleInfoResponse client_join(HttpServletRequest req){
+
+        log.info("Authorization = [{}]",req.getHeader("Authorization"));
+        String token = req.getHeader("Authorization");
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(token);
+        KakaoSimpleInfoResponse resp = new KakaoSimpleInfoResponse(responseKakaoClient.getKakao_account().getProfile().getNickname(), responseKakaoClient.getKakao_account().getEmail());
+        log.info("resp = [{}]",resp);
+        return resp;
     }
 
     /**
      *
      * 회원 가입
      */
-    @PostMapping
-    public void client_infoSave(@RequestBody ClientSaveRequest clientSaveRequest){
+    @PostMapping("/v1/join")
+    public void client_infoSave(@RequestBody ClientSaveRequest clientSaveRequest,HttpServletRequest req){
+        log.info("ClientSaveRequest [{}]",clientSaveRequest);
         clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
                 clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClient_type(),
-                KakaoLogInConst.getId(clientSaveRequest.getAccess_token()).getId());
+                KakaoLogInConst.getId(req.getHeader("Authorization")).getId());
     }
+
 
 
     /**
      * 클라이언트 정보
      */
     @GetMapping("/v1/client")
-    public ClientInfoResponse client_info(@RequestBody JustRequest justRequest){
-        ClientInfo clientInfo = clientService.clientInfoBy(KakaoLogInConst.getId(justRequest.getAccess_token()).getId());
-        return new ClientInfoResponse(clientInfo.getName(),clientInfo.getEmail(),clientInfo.getBelongs(),clientInfo.getDuty(),clientInfo.getClientType());
+    public ClientInfoResponse client_info(HttpServletRequest req){
+        log.info("Authorization = [{}]",req.getHeader("Authorization"));
+        String token = req.getHeader("Authorization");
+        ClientInfo clientInfo = clientService.clientInfoBy(KakaoLogInConst.getId(token).getId());
+        log.info("clientInfo = [{}]",clientInfo);
+        ClientInfoResponse resp = new ClientInfoResponse(clientInfo.getName(), clientInfo.getEmail(), clientInfo.getBelongs(), clientInfo.getDuty(), clientInfo.getClientType());
+        log.info("resp = [{}]",resp);
+        return resp;
     }
 
 

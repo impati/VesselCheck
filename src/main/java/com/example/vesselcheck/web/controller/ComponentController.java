@@ -96,8 +96,6 @@ public class ComponentController {
                         c.getComponentName(),c.getSequenceNumber(),c.getWorkingStatus()))
                 .collect(Collectors.toList()));
 
-
-
         return "component/components";
     }
 

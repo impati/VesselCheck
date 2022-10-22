@@ -26,7 +26,8 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+*.yml
+KakaoLogInConst.java
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -36,3 +37,4 @@ out/
 
 ### VS Code ###
 .vscode/
+

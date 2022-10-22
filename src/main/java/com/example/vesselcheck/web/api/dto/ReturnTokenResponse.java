@@ -17,4 +17,6 @@ public class ReturnTokenResponse {
     private String refresh_token;
     private Integer refresh_token_expires_in;
     private Boolean is_our_client;
+    private String name;
+    private String email;
 }

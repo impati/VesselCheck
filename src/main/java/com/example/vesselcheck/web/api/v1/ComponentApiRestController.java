@@ -1,0 +1,98 @@
+package com.example.vesselcheck.web.api.v1;
+
+import com.example.vesselcheck.domain.Repository.ClientRepository;
+import com.example.vesselcheck.domain.Repository.VesselRepository;
+import com.example.vesselcheck.domain.entity.Client;
+import com.example.vesselcheck.domain.entity.Vessel;
+import com.example.vesselcheck.domain.service.ComponentService;
+import com.example.vesselcheck.domain.service.Dto.BlockSearchCond;
+import com.example.vesselcheck.domain.service.Dto.ComponentForm;
+import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
+import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
+import com.example.vesselcheck.web.api.dto.BlockRegisterRequest;
+import com.example.vesselcheck.web.api.dto.BlockSearchResponse;
+import com.example.vesselcheck.web.api.dto.ComponentInfoList;
+import com.example.vesselcheck.web.dto.ResponseKakaoClient;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+public class ComponentApiRestController {
+    private final ComponentService componentService;
+    private final VesselRepository vesselRepository;
+    private final ClientRepository clientRepository;
+
+
+    /**
+     * 블럭 저장
+     */
+    @PostMapping("/v1/block/register")
+    public void blockRegister(@RequestBody BlockRegisterRequest blockRegisterRequest, HttpServletRequest req){
+        log.info("blockRegisterRequest = [{}]",blockRegisterRequest);
+        Vessel vessel = vesselRepository.findByIMO(blockRegisterRequest.getImo()).orElse(null);
+        Client client = clientRepository.findByKakaoId(KakaoLogInConst.getId(req.getHeader("Authorization")).getId()).orElse(null);
+        componentService.registerBlock(vessel.getId(),client.getId(),blockRegisterRequest.getBlock_name(),blockRegisterRequest.getWorking_step());
+    }
+
+    /**
+     * 블럭 조회
+     */
+    @GetMapping("/v1/block/list")
+    public BlockSearchResponse blockList(@ModelAttribute BlockSearchCond blockSearchCond){
+        log.info("blockSearchCond [{}]",blockSearchCond);
+        BlockSearchResponse resp = new BlockSearchResponse();
+        resp.setBlockInfoList(componentService.searchBlock(blockSearchCond));
+        return resp;
+    }
+
+
+    /**
+     * 부품 업로드
+     */
+    @PostMapping("/v1/vessel/{imo}/component/register")
+    public String componentRegister(@PathVariable Long imo , @ModelAttribute ComponentForm componentForm,
+                                    HttpServletRequest req){
+        log.info("componentForm [{}]",componentForm);
+        componentService.registerComponentList(componentForm);
+        return "OK";
+    }
+    /**
+     * 부품 조회
+     */
+    @GetMapping("/v1/vessel/{imo}/component/list")
+    public ComponentInfoList componentList(@PathVariable String imo , @ModelAttribute ComponentSearchCond componentSearchCond,
+                              HttpServletRequest req){
+        log.info("componentSearchCond [{}]",componentSearchCond);
+
+        // 사용자 , 선박 세팅.
+        Client client = clientRepository.findByKakaoId(KakaoLogInConst.getId(req.getHeader("Authorization")).getId()).orElse(null);
+        Vessel vessel = vesselRepository.findByIMO(imo).orElse(null);
+        componentSearchCond.setClientId(client.getId());
+        componentSearchCond.setVesselId(vessel.getId());
+
+
+        ComponentInfoList resp = new ComponentInfoList();
+        resp.setComponentInfoList(
+        componentService.searchComponent(componentSearchCond)
+                .stream()
+                .map(c ->new ComponentInfo(c.getId(),c.getFaultType(),
+                        c.getComponentName(),c.getSequenceNumber(),c.getWorkingStatus()))
+                .collect(Collectors.toList()));
+        log.info("resp = [{}]",resp);
+        return resp;
+    }
+    /**
+     * 부품 상세
+     */
+
+    
+
+
+
+}

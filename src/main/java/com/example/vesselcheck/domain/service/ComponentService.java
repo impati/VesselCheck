@@ -6,10 +6,7 @@ import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.Repository.ComponentRepository;
 import com.example.vesselcheck.domain.Repository.VesselRepository;
 import com.example.vesselcheck.domain.entity.*;
-import com.example.vesselcheck.domain.service.Dto.ComponentForm;
-import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
-import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
-import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
+import com.example.vesselcheck.domain.service.Dto.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TODO : 이미지 처리
@@ -103,30 +101,33 @@ public class ComponentService {
             for (Components components : componentsList) {
                 decisionV1(components);
             }
-            //
+            // 결과 저장.
             componentRepository.saveAll(componentsList);
         }catch(Exception e){
             throw new FileUploadExceptionCustom("파일 업로드 에러");
         }
     }
 
-
     private void decisionV1(Components components){
-
         String imagePath = hostName + components.getStoreImageName();
-
-
         URI uri = UriComponentsBuilder.fromUriString(imageServerHostName +"v1/decision")
                 .encode()
                 .build()
                 .toUri();
-
         ResponseEntity<componentImageResponse> result =
                 new RestTemplate().exchange(new RequestEntity<>(new componentImageRequest(imagePath), HttpMethod.POST, uri), componentImageResponse.class);
 
         log.info("result = [{}]",result.getBody());
         componentImageResponse body = result.getBody();
         components.update(body.getClass_id(),body.getImage_url());
+    }
+
+    /**
+     * 블럭 조회
+     */
+    public List<BlockInfo> searchBlock(BlockSearchCond blockSearchCond){
+        return blockRepository.searchBlock(blockSearchCond).stream()
+                .map(ele->new BlockInfo(ele.getVessel().getIMO(),ele.getVessel().getVesselName(),ele.getBlockName(),ele.getWorkingStep())).collect(Collectors.toList());
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.vesselcheck.domain.service;
 
+import com.example.vesselcheck.domain.Exception.NoAuthorizationAboutVessel;
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.Repository.ClientVesselRepository;
 import com.example.vesselcheck.domain.Repository.VesselRepository;
@@ -58,7 +59,9 @@ public class VesselService {
      * 사용자 선박 추가 - IMO - ver
      */
     public void addVesselOfClient(String IMO,Long clientId){
+        log.info("IMO = [{}]",IMO);
         Vessel vessel = vesselRepository.findByIMO(IMO).orElse(null);
+        log.info("vessel =[{}]",vessel);
         Client  client  = clientRepository.findById(clientId).orElse(null);
         ClientVessel clientVessel = new ClientVessel(client,vessel);
         clientVesselRepository.save(clientVessel);
@@ -73,6 +76,16 @@ public class VesselService {
         Vessel vessel = vesselRepository.findById(vesselId).orElse(null);
         return new VesselInfo(vessel.getId(),vessel.getVesselName(),vessel.getIMO(),vessel.getVesselType());
     }
+     /**
+     * 선박 정보 - IMO ver
+     */
+    public VesselInfo vesselInfo(Long clientId,  String vesselIMO){
+        Vessel vessel = vesselRepository.findByIMO(vesselIMO).orElse(null);
+        if(clientVesselRepository.existClientAndVessel(clientId, vessel.getId()) > 0){
+            return new VesselInfo(vessel.getId(),vessel.getVesselName(),vessel.getIMO(),vessel.getVesselType(),true);
+        }
+        else throw new NoAuthorizationAboutVessel("선박 접근 권한 오류");
+    }
 
 
     /**
@@ -84,12 +97,17 @@ public class VesselService {
      */
     public List<VesselInfo> vesselInfoList (Long clientId, VesselSearchCond vesselSearchCond ){
         List<Vessel> vesselList = vesselRepository.searchVessel(vesselSearchCond);
+        log.info("vesselList = [{}]",vesselList);
         List<ClientVessel> clientVessels = clientVesselRepository.findByVesselListAndClient(clientId, vesselList);
+        log.info("clientVessels = [{}]",clientVessels);
         return vesselList.stream().map(v->new VesselInfo(v.getId(),v.getIMO(),v.getVesselName(),v.getVesselType(),isOwner(v,clientVessels))).collect(Collectors.toList());
     }
     private boolean isOwner(Vessel vessel,List<ClientVessel> clientVessels){
         return clientVessels.stream().filter(cv->cv.getVessel().equals(vessel)).findFirst().isPresent();
     }
+
+
+
 
 
 
