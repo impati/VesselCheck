@@ -141,30 +141,30 @@ public class ComponentController {
     }
 
 
-    /**
-     * 이미지 응답
-     */
-    @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(filename));
-    }
+//    /**
+//     * 이미지 응답
+//     */
+//    @ResponseBody
+//    @GetMapping("/images/{filename}")
+//    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+//        return new UrlResource("file:" + fileStore.getFullPath(filename));
+//    }
 
 
-    /**
-     * 최신 버전
-     * 이미지 응답.
-     */
-    @ResponseBody
-    @GetMapping(value = "/image/{filename}")
-    public ResponseEntity<Resource> userSearch(@PathVariable String filename) throws IOException {
-        String inputFile = fileStore.getFullPath(filename);
-        Path path = new File(inputFile).toPath();
-        FileSystemResource resource = new FileSystemResource(path);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
-                .body(resource);
-    }
+//    /**
+//     * 최신 버전
+//     * 이미지 응답.
+//     */
+//    @ResponseBody
+//    @GetMapping(value = "/image/{filename}")
+//    public ResponseEntity<Resource> userSearch(@PathVariable String filename) throws IOException {
+//        String inputFile = fileStore.getFullPath(filename);
+//        Path path = new File(inputFile).toPath();
+//        FileSystemResource resource = new FileSystemResource(path);
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
+//                .body(resource);
+//    }
 
 
 

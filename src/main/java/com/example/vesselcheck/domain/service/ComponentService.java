@@ -7,6 +7,7 @@ import com.example.vesselcheck.domain.Repository.ComponentRepository;
 import com.example.vesselcheck.domain.Repository.VesselRepository;
 import com.example.vesselcheck.domain.entity.*;
 import com.example.vesselcheck.domain.service.Dto.*;
+import com.example.vesselcheck.web.api.v1.ImageConst;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,7 @@ public class ComponentService {
     private final VesselRepository vesselRepository;
     private final ClientRepository clientRepository;
     private final FileStore fileStore;
-    private final static String hostName = "http://localhost:8080/images/";
-    private final static String imageServerHostName = "http://34.64.185.37:9090/";
+
 
     /**
      * 부품 등록 ..TODO :이미지 업로드 및 추가 기능 ..
@@ -109,8 +109,8 @@ public class ComponentService {
     }
 
     private void decisionV1(Components components){
-        String imagePath = hostName + components.getStoreImageName();
-        URI uri = UriComponentsBuilder.fromUriString(imageServerHostName +"v1/decision")
+        String imagePath = ImageConst.hostName + components.getStoreImageName();
+        URI uri = UriComponentsBuilder.fromUriString(ImageConst.imageServerHostName +"v1/decision")
                 .encode()
                 .build()
                 .toUri();
