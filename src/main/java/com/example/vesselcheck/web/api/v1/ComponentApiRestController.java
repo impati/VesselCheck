@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ComponentApiRestController {
     private final ComponentService componentService;
     private final VesselRepository vesselRepository;

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class VesselApiRestController {
     private final VesselService vesselService;
     private final ClientRepository clientRepository;

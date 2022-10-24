@@ -20,11 +20,4 @@ public class WebConfig implements WebMvcConfigurer {
 //                        ,"/image/**"
 //                );
     }
-
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        WebMvcConfigurer.super.addCorsMappings(registry);
-        registry.addMapping("/**");
-    }
 }
