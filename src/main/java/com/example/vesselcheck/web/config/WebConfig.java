@@ -20,4 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
 //                        ,"/image/**"
 //                );
     }
+
+
+    @Bean
+    public IsLoginClient loginClient(){return new IsLoginClient();}
 }

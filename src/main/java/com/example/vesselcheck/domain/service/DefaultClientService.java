@@ -36,9 +36,7 @@ public class DefaultClientService implements ClientService {
      */
     @Override
     public Client clientRegister(String name, String belongs, String email,String duty, ClientType clientType, Long kakaoId) {
-        Client client = Client.createClient(name,belongs,email,duty,clientType);
-        client.setKakaoId(kakaoId);
-        log.info("client = [{}]",client);
+        Client client = Client.createClient(name,belongs,email,duty,clientType,kakaoId);
         clientRepository.save(client);
         return client;
     }

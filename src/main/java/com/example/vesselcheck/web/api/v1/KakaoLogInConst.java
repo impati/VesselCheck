@@ -1,5 +1,6 @@
 package com.example.vesselcheck.web.api.v1;
 
+import com.example.vesselcheck.web.api.Exception.HaveNotToken;
 import com.example.vesselcheck.web.api.Exception.KaKaoAuthError;
 import com.example.vesselcheck.web.api.dto.ReturnTokenResponse;
 import com.example.vesselcheck.web.dto.ResponseKakaoClient;
@@ -22,21 +23,21 @@ public abstract class KakaoLogInConst {
     /**
         카카오에 사용자 정보를 요청
     */
-    public static ResponseKakaoClient getId(String token){
+    public static ResponseKakaoClient getKaKaoInfo(String token){
         try {
             URI uri = UriComponentsBuilder
                     .fromUriString("https://kapi.kakao.com/v2/user/me")
                     .build()
                     .toUri();
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("Authorization", "Bearer " + token);
+            httpHeaders.set("Authorization","Bearer " + token);
             httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
             RequestEntity requestEntity = new RequestEntity(httpHeaders, HttpMethod.POST, uri);
             ResponseEntity<ResponseKakaoClient> result = new RestTemplate().exchange(requestEntity, ResponseKakaoClient.class);
             return result.getBody();
         }catch (Exception e){
-            throw new KaKaoAuthError("카카오 인증 에러" , e);
+            throw new KaKaoAuthError("카카오 토큰 에러;로그인한 사용자가 아닙니다." , e);
         }
     }
 
@@ -58,7 +59,7 @@ public abstract class KakaoLogInConst {
             log.info("result [{}]", result.getBody());
             return result.getBody();
         }catch (Exception e){
-            throw new KaKaoAuthError("카카로 토큰 에러 ",e);
+            throw new HaveNotToken("카카오 인증 에러 ",e);
         }
     }
 

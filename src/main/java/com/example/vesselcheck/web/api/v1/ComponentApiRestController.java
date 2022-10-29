@@ -50,7 +50,7 @@ public class ComponentApiRestController {
     public void blockRegister(@RequestBody BlockRegisterRequest blockRegisterRequest, HttpServletRequest req){
         log.info("blockRegisterRequest = [{}]",blockRegisterRequest);
         Vessel vessel = vesselRepository.findByIMO(blockRegisterRequest.getImo()).orElse(null);
-        Client client = clientRepository.findByKakaoId(KakaoLogInConst.getId(req.getHeader("Authorization")).getId()).orElse(null);
+        Client client = clientRepository.findByKakaoId(KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId()).orElse(null);
         componentService.registerBlock(vessel.getId(),client.getId(),blockRegisterRequest.getBlock_name(),blockRegisterRequest.getWorking_step());
     }
 
@@ -84,7 +84,7 @@ public class ComponentApiRestController {
         log.info("componentSearchCond [{}]",componentSearchCond);
 
         // 사용자 , 선박 세팅.
-        Client client = clientRepository.findByKakaoId(KakaoLogInConst.getId(req.getHeader("Authorization")).getId()).orElse(null);
+        Client client = clientRepository.findByKakaoId(KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId()).orElse(null);
         Vessel vessel = vesselRepository.findByIMO(imo).orElse(null);
         componentSearchCond.setClientId(client.getId());
         componentSearchCond.setVesselId(vessel.getId());

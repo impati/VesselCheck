@@ -35,7 +35,7 @@ public class ClientApiRestController {
     public ReturnTokenResponse returnToken(@RequestBody ReturnTokenRequest returnTokenRequest){
         log.info("returnTokenRequest [{}]",returnTokenRequest.getCode());
         ReturnTokenResponse returnTokenResponse = getToken(returnTokenRequest.getCode());
-        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(returnTokenResponse.getAccess_token());
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getKaKaoInfo(returnTokenResponse.getAccess_token());
         if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIs_our_client(false);
         else returnTokenResponse.setIs_our_client(true);
         returnTokenResponse.setName(responseKakaoClient.getKakao_account().getProfile().getNickname());
@@ -51,7 +51,7 @@ public class ClientApiRestController {
      */
     @GetMapping("/v1/join")
     public KakaoSimpleInfoResponse client_join(HttpServletRequest req){
-        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(req.getHeader("Authorization"));
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization"));
         KakaoSimpleInfoResponse resp = new KakaoSimpleInfoResponse(responseKakaoClient.getKakao_account().getProfile().getNickname(), responseKakaoClient.getKakao_account().getEmail());
         log.info("resp = [{}]",resp);
         return resp;
@@ -66,7 +66,7 @@ public class ClientApiRestController {
         log.info("ClientSaveRequest [{}]",clientSaveRequest);
         clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
                 clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClient_type(),
-                KakaoLogInConst.getId(req.getHeader("Authorization")).getId());
+                KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId());
     }
 
 
@@ -78,7 +78,7 @@ public class ClientApiRestController {
     public ClientInfoResponse client_info(HttpServletRequest req){
         log.info("Authorization = [{}]",req.getHeader("Authorization"));
         String token = req.getHeader("Authorization");
-        ClientInfo clientInfo = clientService.clientInfoBy(KakaoLogInConst.getId(token).getId());
+        ClientInfo clientInfo = clientService.clientInfoBy(KakaoLogInConst.getKaKaoInfo(token).getId());
         log.info("clientInfo = [{}]",clientInfo);
         ClientInfoResponse resp = new ClientInfoResponse(clientInfo.getName(), clientInfo.getEmail(), clientInfo.getBelongs(), clientInfo.getDuty(), clientInfo.getClientType());
         log.info("resp = [{}]",resp);

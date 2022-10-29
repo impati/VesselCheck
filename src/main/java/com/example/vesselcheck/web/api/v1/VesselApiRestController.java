@@ -28,7 +28,7 @@ public class VesselApiRestController {
     @GetMapping("/v1/vessel/list")
     public VesselListResponse vesselList(@ModelAttribute VesselListRequest vesselListRequest, HttpServletRequest req){
         log.info("VesselListRequest = [{}]",vesselListRequest);
-        Long kakaoId = KakaoLogInConst.getId(req.getHeader("Authorization")).getId();
+        Long kakaoId = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId();
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
         VesselListResponse resp = new VesselListResponse();
         resp.setVesselInfoList(vesselService.vesselInfoList(client.getId(),new VesselSearchCond(vesselListRequest.getImo(),vesselListRequest.getVessel_name(),vesselListRequest.getVessel_type())));
@@ -41,7 +41,7 @@ public class VesselApiRestController {
      */
     @PostMapping("/v1/vessel/add")
     public void vesselAdd(@RequestBody VesselAddRequest vesselAddRequest,HttpServletRequest req){
-        Long kakaoId = KakaoLogInConst.getId(req.getHeader("Authorization")).getId();
+        Long kakaoId = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId();
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
         vesselService.addVesselOfClient(vesselAddRequest.getIMO(),client.getId());
     }
@@ -63,7 +63,7 @@ public class VesselApiRestController {
      */
     @GetMapping("/v1/vessel/{vesselIMO}")
     public VesselInfo vesselPage(@PathVariable String vesselIMO,HttpServletRequest req){
-        Long kakaoId = KakaoLogInConst.getId(req.getHeader("Authorization")).getId();
+        Long kakaoId = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId();
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
         return vesselService.vesselInfo(client.getId(),vesselIMO);
     }
@@ -74,7 +74,7 @@ public class VesselApiRestController {
      */
     @GetMapping("/v1/client/vessels")
     public VesselListResponse clientVesselList(HttpServletRequest req) {
-        Long kakaoId = KakaoLogInConst.getId(req.getHeader("Authorization")).getId();
+        Long kakaoId = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId();
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
         VesselListResponse resp = new VesselListResponse();
         vesselService.searchVessel(client.getId())

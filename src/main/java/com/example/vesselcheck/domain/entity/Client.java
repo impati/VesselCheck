@@ -42,23 +42,14 @@ public abstract class Client  {
         }
     }
 
-    public static Client createClient(String name,String belongs,String email,String duty,ClientType clientType){
-        if(clientType == ClientType.INSPECTOR){
-            Client client = new Inspector();
-            client.setName(name);
-            client.setBelongs(belongs);
-            client.setEmail(email);
-            client.setDuty(duty);
-            return client;
-        }
-        else{
-            Client client = new Manufacturer();
-            client.setName(name);
-            client.setBelongs(belongs);
-            client.setEmail(email);
-            client.setDuty(duty);
-            return client;
-        }
+    public static Client createClient(String name,String belongs,String email,String duty,ClientType clientType,Long kakaoId){
+        Client client = clientType == ClientType.MANUFACTURER ? new Manufacturer() : new Inspector();
+        client.setName(name);
+        client.setBelongs(belongs);
+        client.setEmail(email);
+        client.setDuty(duty);
+        client.setKakaoId(kakaoId);
+        return client;
     }
 
 }
