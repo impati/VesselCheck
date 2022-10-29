@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
 
+import static com.example.vesselcheck.web.api.v1.KakaoLogInConst.getToken;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +30,6 @@ public class ClientApiRestController {
 
     /**
      * 토큰 받기
-     * @param returnTokenRequest
-     * @return ReturnTokenResponse
      */
     @PostMapping("/v1/get_token")
     public ReturnTokenResponse returnToken(@RequestBody ReturnTokenRequest returnTokenRequest){
@@ -44,26 +44,6 @@ public class ClientApiRestController {
         return returnTokenResponse;
     }
 
-    private ReturnTokenResponse getToken(String code){
-
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://kauth.kakao.com/oauth/token")
-                .queryParam("grant_type","authorization_code")
-                .queryParam("client_id",KakaoLogInConst.clientId)
-                .queryParam("redirect_uri",KakaoLogInConst.redirectId)
-                .queryParam("code",code)
-                .queryParam("client_secret",KakaoLogInConst.clientSecret)
-                .build()
-                .toUri();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Content-type","application/x-www-form-urlencoded;charset=utf-8");
-        RequestEntity requestEntity = new RequestEntity(httpHeaders, HttpMethod.POST,uri);
-        ResponseEntity<ReturnTokenResponse> result = new RestTemplate().exchange(requestEntity, ReturnTokenResponse.class);
-        log.info("result [{}]",result.getBody());
-        return result.getBody();
-    }
-
 
 
     /**
@@ -71,10 +51,7 @@ public class ClientApiRestController {
      */
     @GetMapping("/v1/join")
     public KakaoSimpleInfoResponse client_join(HttpServletRequest req){
-
-        log.info("Authorization = [{}]",req.getHeader("Authorization"));
-        String token = req.getHeader("Authorization");
-        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(token);
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getId(req.getHeader("Authorization"));
         KakaoSimpleInfoResponse resp = new KakaoSimpleInfoResponse(responseKakaoClient.getKakao_account().getProfile().getNickname(), responseKakaoClient.getKakao_account().getEmail());
         log.info("resp = [{}]",resp);
         return resp;

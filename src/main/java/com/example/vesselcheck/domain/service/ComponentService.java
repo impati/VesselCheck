@@ -104,7 +104,7 @@ public class ComponentService {
             // 결과 저장.
             componentRepository.saveAll(componentsList);
         }catch(Exception e){
-            throw new FileUploadExceptionCustom("파일 업로드 에러");
+            throw new FileUploadExceptionCustom("파일 업로드 에러",e);
         }
     }
 
