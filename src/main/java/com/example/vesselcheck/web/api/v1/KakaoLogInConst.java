@@ -58,7 +58,7 @@ public abstract class KakaoLogInConst {
             log.info("result [{}]", result.getBody());
             return result.getBody();
         }catch (Exception e){
-            throw new KaKaoAuthError("카카로 에러 ",e);
+            throw new KaKaoAuthError("카카로 토큰 에러 ",e);
         }
     }
 

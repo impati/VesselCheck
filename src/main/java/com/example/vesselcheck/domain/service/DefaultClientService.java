@@ -15,21 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DefaultClientService implements ClientService {
     private final ClientRepository clientRepository;
+
     public ClientInfo clientInfo(Long clientId){
         Client client =  clientRepository.findById(clientId).orElse(null);
-        ClientInfo clientInfo = new ClientInfo(client);
-        return clientInfo;
+        return ClientInfo.CreateClientInfo(client);
     }
 
+    /**
+     * @param kakaoId
+     */
     @Override
     public ClientInfo clientInfoBy(Long kakaoId) {
-        log.info("kakaoId [{}]",kakaoId);
         Client client =  clientRepository.findByKakaoId(kakaoId).orElse(null);
-        if(client == null) return  null;
-        else {
-            ClientInfo clientInfo = new ClientInfo(client);
-            return clientInfo;
-        }
+        return ClientInfo.CreateClientInfo(client);
     }
 
 
