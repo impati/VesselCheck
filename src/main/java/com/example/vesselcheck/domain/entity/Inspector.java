@@ -8,5 +8,4 @@ import javax.persistence.*;
 @Entity
 @Getter@Setter
 public class Inspector extends Client {
-    private RankPosition rankPosition;
 }

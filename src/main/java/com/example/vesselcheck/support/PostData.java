@@ -36,7 +36,7 @@ public class PostData {
 
         String IMOs [] = new String[]{"1234","abcd","가나다라","qwer","5678"};
         String names [] = new String[]{"행복선박","행운 선박","팝콘 선박","낙성대 선박","우주 선박"};
-        VesselType vesselTypes[] = new VesselType[]{VesselType.A,VesselType.B,VesselType.C,VesselType.A,VesselType.B};
+        VesselType vesselTypes[] = new VesselType[]{VesselType.General,VesselType.General,VesselType.General,VesselType.General,VesselType.General};
 
         /**
          * 선박 등록 , 블록 , 부품 등록
@@ -46,7 +46,7 @@ public class PostData {
             vesselRepository.save(vessel);
 
             if(i == 0) {
-                Block block = Block.createBlock(vessel, clientRepository.findById(3L).orElse(null), "aaa", WorkingStep.ASSEMBLY);
+                Block block = Block.createBlock(vessel, clientRepository.findById(3L).orElse(null), "aaa", WorkingStep.PieceAssembly);
                 blockRepository.save(block);
                 Components components1 = Components.createComponent(block, "보온채", "11-11");
                 Components components2 = Components.createComponent(block, "배관", "22-22");

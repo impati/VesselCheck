@@ -7,5 +7,4 @@ import javax.persistence.*;
 @Entity
 @Getter
 public class Manufacturer extends Client{
-    private Specialty specialty;
 }

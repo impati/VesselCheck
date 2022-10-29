@@ -45,7 +45,7 @@ public class VesselController {
 
             componentSearchCond.setVesselId(vesselId);
             componentSearchCond.setClientId(clientId);
-            componentSearchCond.setWorkingStatus(WorkingStatus.W);
+            componentSearchCond.setWorkingStatus(WorkingStatus.WorkingStart);
             model.addAttribute("components",componentService.searchComponent(componentSearchCond));
             return "vessel/Manufacturer";
         }

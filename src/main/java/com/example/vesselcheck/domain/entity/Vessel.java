@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,6 +19,10 @@ public class Vessel extends BaseEntity{
     private String IMO;
     private String vesselName;
     private VesselType vesselType;
+    private Integer totalTon; // 총 톤 수
+    private LocalDateTime startDate; //착공 예정일
+    private LocalDateTime endDate; // 준공 예정일일
+
 
 
     public static Vessel createVessel(String IMO , String vesselName, VesselType vesselType){
@@ -27,8 +32,6 @@ public class Vessel extends BaseEntity{
         vessel.vesselType = vesselType;
         return vessel;
     }
-
-
 
 
 

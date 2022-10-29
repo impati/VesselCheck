@@ -4,6 +4,7 @@ import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Getter
@@ -12,9 +13,7 @@ public class Components extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "component_id")
     private Long id;
-
     private FaultType faultType;
-
     private String componentName;//enum?
     private String sequenceNumber;
     private String uploadImageName;
@@ -47,12 +46,12 @@ public class Components extends BaseEntity {
     public void update(Integer classId , String urlPath){
         if(classId == -1){
             this.faultType = FaultType.GOOD;
-            this.workingStatus = WorkingStatus.W;
+            this.workingStatus = WorkingStatus.InspectionComplete;
             this.imageUrlPath = urlPath;
         }
         else{
-            this.faultType = FaultType.F1;
-            this.workingStatus = WorkingStatus.A;
+            this.faultType = Arrays.stream(FaultType.values()).filter(f->f.getClassId().equals(classId)).findFirst().get();
+            this.workingStatus = WorkingStatus.WorkingStart;
             this.imageUrlPath = urlPath;
         }
 

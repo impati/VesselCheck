@@ -16,8 +16,6 @@ public class ClientInfo {
     private String belongs;
     private String email;
     private String duty;
-    private RankPosition rankPosition;
-    private Specialty specialty;
     private String clientTypeString;
     private ClientType clientType;
     private Long clientId;
@@ -29,12 +27,10 @@ public class ClientInfo {
         this.duty = client.getDuty();
         if(client instanceof Manufacturer) {
             this.clientTypeString = "제조 업체";
-            this.specialty = ((Manufacturer)client).getSpecialty();
             this.clientType = ClientType.MANUFACTURER;
         }
         else {
             this.clientTypeString = "검사관";
-            this.rankPosition = ((Inspector)client).getRankPosition();
             this.clientType = ClientType.INSPECTOR;
         }
 

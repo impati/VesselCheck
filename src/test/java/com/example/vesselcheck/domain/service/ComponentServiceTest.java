@@ -1,5 +1,7 @@
 package com.example.vesselcheck.domain.service;
 
+import com.example.vesselcheck.domain.entity.FaultType;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,6 +49,22 @@ class ComponentServiceTest {
 
         String imageName = "56427164-2f2d-4684-a46f-60d39aeb08af.jpg";
         decision(imageName);
+
+    }
+
+
+
+
+    @Test
+    @DisplayName("enumClassId")
+    public void classIdTest() throws Exception{
+        Integer classId = 2;
+        FaultType faultType = Arrays.stream(FaultType.values()).
+                filter(f->f.getClassId().equals(classId)).findFirst().get();
+
+        Assertions.assertThat(faultType).isEqualTo(FaultType.FAULT_TYPE_304);
+
+
 
     }
 

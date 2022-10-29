@@ -27,7 +27,6 @@ public class Block extends BaseEntity{
 
     public static Block createBlock(Vessel vessel , Client client,
                                     String blockName, WorkingStep workingStep){
-
         Block block = new Block();
         block.blockName = blockName;
         block.client = client;
