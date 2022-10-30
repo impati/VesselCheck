@@ -30,17 +30,20 @@ public class VesselQueryDslImpl implements VesselQueryDsl{
                 .where(
                         IMOEq(vesselSearchCond.getIMO()),
                         nameEq(vesselSearchCond.getName()),
-                        typeEq(vesselSearchCond.getVesselType())
+                        typeEq(vesselSearchCond.getVesselType()),
+                        tonEq(vesselSearchCond.getTon())
                         )
                 .fetch();
     }
     private boolean isAllNull(VesselSearchCond vesselSearchCond){
         if(vesselSearchCond.getVesselType()== null &&
                 !StringUtils.hasText(vesselSearchCond.getIMO()) &&
-                !StringUtils.hasText(vesselSearchCond.getName())
+                !StringUtils.hasText(vesselSearchCond.getName()) &&
+                vesselSearchCond.getTon() == null
         )return true;
         return false;
     }
+    private BooleanExpression tonEq(Integer ton){return ton == null ? null : vessel.totalTon.eq(ton);}
     private BooleanExpression IMOEq(String IMO){
         return !StringUtils.hasText(IMO) ? null :vessel.IMO.eq(IMO);
     }

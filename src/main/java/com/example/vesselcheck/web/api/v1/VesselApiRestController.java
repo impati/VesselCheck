@@ -43,7 +43,7 @@ public class VesselApiRestController {
     public void vesselAdd(@RequestBody VesselAddRequest vesselAddRequest,HttpServletRequest req){
         Long kakaoId = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId();
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
-        vesselService.addVesselOfClient(vesselAddRequest.getIMO(),client.getId());
+        vesselService.addVesselOfClient(vesselAddRequest.getImo(),client.getId());
     }
 
     /**

@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,9 +18,13 @@ public class VesselInfo {
     private String IMO;
     private String vesselName;
     private VesselType vesselType;
+    private Integer ton;
+    private LocalDate startDate; //착공 예정일
+    private LocalDate endDate; // 준공 예정일일
+
     private boolean isOwnership;
 
-    public VesselInfo(String IMO, String vesselName, VesselType vesselType) {
+    public VesselInfo(Long id, String IMO, String vesselName, VesselType vesselType, boolean b) {
         this.IMO = IMO;
         this.vesselName = vesselName;
         this.vesselType = vesselType;
@@ -29,4 +36,9 @@ public class VesselInfo {
         this.vesselName = vesselName;
         this.vesselType = vesselType;
     }
+
+
+
+
+
 }

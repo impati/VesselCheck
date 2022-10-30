@@ -11,9 +11,11 @@ import com.example.vesselcheck.web.dto.ResponseKakaoClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import static com.example.vesselcheck.web.api.v1.KakaoLogInConst.*;
 
@@ -42,10 +44,12 @@ public class ClientApiV2Controller {
      */
     @PostMapping("/v2/join")
     @IsToken
-    public void client_infoSave(@RequestBody ClientSaveRequest clientSaveRequest, HttpServletRequest req){
+    public PostResult client_infoSave(@Valid @RequestBody ClientSaveRequest clientSaveRequest, HttpServletRequest req){
         clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
                 clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClient_type(),
                 getKaKaoInfo(req.getHeader("Authorization")).getId());
+
+        return new PostResult("OK");
     }
     /**
      * 클라이언트 정보
