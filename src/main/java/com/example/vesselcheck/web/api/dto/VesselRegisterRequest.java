@@ -15,11 +15,11 @@ public class VesselRegisterRequest{
     @NotBlank
     private String IMO;
     @NotBlank
-    private String vessel_name;
+    private String vesselName;
     @NotNull
-    private VesselType vessel_type;
+    private VesselType vesselType;
     @NotNull
-    private Integer totalTon;
+    private Integer ton;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")

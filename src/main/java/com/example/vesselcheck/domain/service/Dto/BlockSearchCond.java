@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BlockSearchCond {
     private String imo;
-    private String block_name;
-    private WorkingStep working_step;
+    private String blockName;
+    private WorkingStep workingStep;
 }

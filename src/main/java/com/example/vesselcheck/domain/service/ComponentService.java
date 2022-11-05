@@ -126,8 +126,10 @@ public class ComponentService {
      * 블럭 조회
      */
     public List<BlockInfo> searchBlock(BlockSearchCond blockSearchCond){
-        return blockRepository.searchBlock(blockSearchCond).stream()
-                .map(ele->new BlockInfo(ele.getVessel().getIMO(),ele.getVessel().getVesselName(),ele.getBlockName(),ele.getWorkingStep())).collect(Collectors.toList());
+        return blockRepository.searchBlock(blockSearchCond)
+                .stream()
+                .map(ele->new BlockInfo(ele.getVessel().getIMO(),ele.getVessel().getVesselName(),ele.getBlockName(),ele.getWorkingStep()))
+                .collect(Collectors.toList());
     }
 
 

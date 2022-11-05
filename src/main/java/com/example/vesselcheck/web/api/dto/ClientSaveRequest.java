@@ -24,5 +24,5 @@ public class ClientSaveRequest {
     @NotBlank
     private String duty;
     @NotNull
-    private ClientType client_type;
+    private ClientType clientType;
 }

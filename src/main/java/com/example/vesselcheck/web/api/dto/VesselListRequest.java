@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class VesselListRequest{
     private String imo;
-    private String vessel_name;
-    private VesselType vessel_type;
+    private String vesselName;
+    private VesselType vesselType;
     private Integer ton;
 }

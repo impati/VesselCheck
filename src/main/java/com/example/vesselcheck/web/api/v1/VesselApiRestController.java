@@ -31,7 +31,7 @@ public class VesselApiRestController {
         Long kakaoId = KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId();
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
         VesselListResponse resp = new VesselListResponse();
-        resp.setVesselInfoList(vesselService.vesselInfoList(client.getId(),new VesselSearchCond(vesselListRequest.getImo(),vesselListRequest.getVessel_name(),vesselListRequest.getVessel_type())));
+        resp.setVesselInfoList(vesselService.vesselInfoList(client.getId(),new VesselSearchCond(vesselListRequest.getImo(),vesselListRequest.getVesselName(),vesselListRequest.getVesselType())));
         return resp;
     }
 
@@ -52,7 +52,7 @@ public class VesselApiRestController {
      */
     @PostMapping("/v1/vessel/register")
     public void vesselRegister(@RequestBody VesselRegisterRequest vesselRegisterRequest){
-        vesselService.vesselRegister(vesselRegisterRequest.getIMO(),vesselRegisterRequest.getVessel_name(),vesselRegisterRequest.getVessel_type());
+        vesselService.vesselRegister(vesselRegisterRequest.getIMO(),vesselRegisterRequest.getVesselName(),vesselRegisterRequest.getVesselType());
     }
 
 

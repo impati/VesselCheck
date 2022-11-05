@@ -25,11 +25,11 @@ public class BlockQueryDslImpl implements BlockQueryDsl{
     @Override
     public List<Block> searchBlock(BlockSearchCond blockSearchCond) {
         BooleanBuilder builder = new BooleanBuilder();
-        if(blockSearchCond.getBlock_name() != null){
-            builder.and(block.blockName.contains(blockSearchCond.getBlock_name()));
+        if(blockSearchCond.getBlockName() != null){
+            builder.and(block.blockName.contains(blockSearchCond.getBlockName()));
         }
-        if(blockSearchCond.getWorking_step() != null){
-            builder.and(block.workingStep.eq(blockSearchCond.getWorking_step()));
+        if(blockSearchCond.getWorkingStep() != null){
+            builder.and(block.workingStep.eq(blockSearchCond.getWorkingStep()));
         }
         if(StringUtils.hasText(blockSearchCond.getImo())){
             builder.and(vessel.IMO.eq(blockSearchCond.getImo()));

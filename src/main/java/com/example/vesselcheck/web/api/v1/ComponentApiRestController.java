@@ -51,7 +51,7 @@ public class ComponentApiRestController {
         log.info("blockRegisterRequest = [{}]",blockRegisterRequest);
         Vessel vessel = vesselRepository.findByIMO(blockRegisterRequest.getImo()).orElse(null);
         Client client = clientRepository.findByKakaoId(KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId()).orElse(null);
-        componentService.registerBlock(vessel.getId(),client.getId(),blockRegisterRequest.getBlock_name(),blockRegisterRequest.getWorking_step());
+        componentService.registerBlock(vessel.getId(),client.getId(),blockRegisterRequest.getBlockName(),blockRegisterRequest.getWorkingStep());
     }
 
     /**
