@@ -31,9 +31,9 @@ public class ClientApiV2Controller {
     @PostMapping("/v2/get_token")
     public ReturnTokenResponse returnToken(@RequestBody ReturnTokenRequest returnTokenRequest){
         ReturnTokenResponse returnTokenResponse = getToken(returnTokenRequest.getCode());
-        ResponseKakaoClient responseKakaoClient = getKaKaoInfo(returnTokenResponse.getAccessToken());
-        if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIsOurClient(false);
-        else returnTokenResponse.setIsOurClient(true);
+        ResponseKakaoClient responseKakaoClient = getKaKaoInfo(returnTokenResponse.getAccess_token());
+        if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIs_our_client(false);
+        else returnTokenResponse.setIs_our_client(true);
         returnTokenResponse.setName(responseKakaoClient.getKakao_account().getProfile().getNickname());
         returnTokenResponse.setEmail(responseKakaoClient.getKakao_account().getEmail());
         log.info("returnTokenResponse [{}]",returnTokenResponse);

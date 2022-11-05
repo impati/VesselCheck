@@ -35,9 +35,9 @@ public class ClientApiRestController {
     public ReturnTokenResponse returnToken(@RequestBody ReturnTokenRequest returnTokenRequest){
         log.info("returnTokenRequest [{}]",returnTokenRequest.getCode());
         ReturnTokenResponse returnTokenResponse = getToken(returnTokenRequest.getCode());
-        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getKaKaoInfo(returnTokenResponse.getAccessToken());
-        if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIsOurClient(false);
-        else returnTokenResponse.setIsOurClient(true);
+        ResponseKakaoClient responseKakaoClient = KakaoLogInConst.getKaKaoInfo(returnTokenResponse.getAccess_token());
+        if(clientService.clientInfoBy(responseKakaoClient.getId()) == null) returnTokenResponse.setIs_our_client(false);
+        else returnTokenResponse.setIs_our_client(true);
         returnTokenResponse.setName(responseKakaoClient.getKakao_account().getProfile().getNickname());
         returnTokenResponse.setEmail(responseKakaoClient.getKakao_account().getEmail());
         log.info("returnTokenResponse [{}]",returnTokenResponse);
