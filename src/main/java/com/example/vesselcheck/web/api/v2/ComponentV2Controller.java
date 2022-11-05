@@ -14,10 +14,7 @@ import com.example.vesselcheck.web.api.v1.KakaoLogInConst;
 import com.example.vesselcheck.web.config.IsToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -25,6 +22,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ComponentV2Controller{
 
     private final BlockRepository blockRepository;
@@ -34,7 +32,7 @@ public class ComponentV2Controller{
 
     @PostMapping("/v2/block/register")
     @IsToken
-    public PostResult blockRegister(@Valid @ModelAttribute BlockRegisterRequest blockRegisterRequest , HttpServletRequest req){
+    public PostResult blockRegister(@Valid @RequestBody BlockRegisterRequest blockRegisterRequest , HttpServletRequest req){
         Vessel vessel = vesselRepository.findByIMO(blockRegisterRequest.getImo()).orElse(null);
         Client client = clientRepository.findByKakaoId(KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId()).orElse(null);
         componentService.registerBlock(vessel.getId(),client.getId(),blockRegisterRequest.getBlockName(),blockRegisterRequest.getWorkingStep());
