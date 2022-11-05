@@ -65,7 +65,7 @@ public class ClientApiRestController {
     public void client_infoSave(@RequestBody ClientSaveRequest clientSaveRequest,HttpServletRequest req){
         log.info("ClientSaveRequest [{}]",clientSaveRequest);
         clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
-                clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClient_type(),
+                clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClientType(),
                 KakaoLogInConst.getKaKaoInfo(req.getHeader("Authorization")).getId());
     }
 
