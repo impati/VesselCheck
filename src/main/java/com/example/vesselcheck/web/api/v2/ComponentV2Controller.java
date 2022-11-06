@@ -66,7 +66,7 @@ public class ComponentV2Controller{
 
     @PostMapping("/v2/component/register")
     @IsToken
-    public PostResult componentRegister(@Valid @RequestBody ComponentForm componentForm,HttpServletRequest req){
+    public PostResult componentRegister(@Valid @ModelAttribute ComponentForm componentForm,HttpServletRequest req){
         componentService.registerComponentList(componentForm);
         return new PostResult("OK");
     }
