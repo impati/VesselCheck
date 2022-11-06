@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RestControllerAdvice(assignableTypes = {ClientApiV2Controller.class,VesselApiV2Controller.class})
+@RestControllerAdvice(assignableTypes = {ClientApiV2Controller.class,VesselApiV2Controller.class,ComponentV2Controller.class})
 public class ExControllerAdvice {
     @ExceptionHandler(KaKaoAuthError.class)
     public ErrorResult kakaoAuth(KaKaoAuthError e){
@@ -34,6 +34,10 @@ public class ExControllerAdvice {
         return new ErrorResult(400,HttpStatus.BAD_REQUEST,errorMessages);
     }
 
+
+    /**
+     * NotFoundEntity 공통 처리를 어떻게 해볼 수 있을까
+     */
     @ExceptionHandler(NotFoundEntity.class)
     public ErrorResult notFoundEntity(NotFoundEntity e){
         return new ErrorResult(400,HttpStatus.BAD_REQUEST,List.of(e.getMessage()));

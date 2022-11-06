@@ -45,6 +45,7 @@ public class ClientApiV2Controller {
     @PostMapping("/v2/join")
     @IsToken
     public PostResult client_infoSave(@Valid @RequestBody ClientSaveRequest clientSaveRequest, HttpServletRequest req){
+        log.info("clientSaveRequest {}",clientSaveRequest);
         clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
                 clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClientType(),
                 getKaKaoInfo(req.getHeader("Authorization")).getId());

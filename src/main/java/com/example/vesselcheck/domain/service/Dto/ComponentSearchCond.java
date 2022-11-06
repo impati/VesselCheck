@@ -13,6 +13,7 @@ public class ComponentSearchCond {
     private String componentName;
     private String sequenceNumber;
     private WorkingStatus workingStatus;
+    private String blockName;
     private Long clientId;
     private Long vesselId;
 }

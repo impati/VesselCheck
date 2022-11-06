@@ -3,6 +3,7 @@ package com.example.vesselcheck.domain.entity;
 import lombok.Getter;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ public class Block extends BaseEntity{
     @JoinColumn(name = "client_id")
     private Client client;
 
-
+    @Column(unique = true)
     private String blockName;
     private WorkingStep workingStep;
 

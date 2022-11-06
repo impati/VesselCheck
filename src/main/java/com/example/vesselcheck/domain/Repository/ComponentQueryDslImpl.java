@@ -26,20 +26,22 @@ public class ComponentQueryDslImpl implements ComponentQueryDsl{
         return jpaQueryFactory.selectFrom(components)
                 .join(components.block, block)
                 .where(
-                        block.client.id.eq(componentSearchCond.getClientId()),
                         block.vessel.id.eq(componentSearchCond.getVesselId()),
+                        blockNameEq(componentSearchCond.getBlockName()),
                         faultTypeEq(componentSearchCond.getFaultType()),
                         componentNameEq(componentSearchCond.getComponentName()),
                         sequenceNumberEq(componentSearchCond.getSequenceNumber()),
                                 workingStatusEq(componentSearchCond.getWorkingStatus()))
                 .fetch();
     }
-
+    private BooleanExpression blockNameEq(String blockName){
+        return !StringUtils.hasText(blockName) ? null : components.componentName.contains(blockName);
+    }
     private BooleanExpression faultTypeEq(FaultType faultType){
         return faultType == null ? null : components.faultType.eq(faultType);
     }
     private BooleanExpression componentNameEq(String name){
-        return !StringUtils.hasText(name) ? null : components.componentName.eq(name);
+        return !StringUtils.hasText(name) ? null : components.componentName.contains(name);
     }
     private BooleanExpression sequenceNumberEq(String number){
         return !StringUtils.hasText(number)? null : components.sequenceNumber.eq(number);

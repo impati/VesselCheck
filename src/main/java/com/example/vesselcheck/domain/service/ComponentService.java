@@ -39,27 +39,6 @@ public class ComponentService {
     private final FileStore fileStore;
 
 
-    /**
-     * 부품 등록 ..TODO :이미지 업로드 및 추가 기능 ..
-     */
-    public Components registerComponent(String blockName, String componentName, String sequenceNumber) {
-        Block block = blockRepository.findBlockByBlockName(blockName);
-        Components components = Components.createComponent(block,componentName,sequenceNumber);
-        componentRepository.save(components);
-        /**
-         * 이미지 처리 및 모델 추론 .
-         */
-        return components;
-    }
-
-    /**
-     * 부품 수정 ..TODO :이미지 재 업로드 및 추가 기능 ..
-     */
-    public Components updateComponent(Long componentId, ComponentUpdateDto updateDto){
-        Components components = componentRepository.findById(componentId).orElse(null);
-        components.update(updateDto);
-        return components;
-    }
 
     /**
      * 부품 조회
