@@ -1,6 +1,7 @@
 package com.example.vesselcheck.domain.service;
 
 import com.example.vesselcheck.domain.Exception.FileUploadExceptionCustom;
+import com.example.vesselcheck.domain.Exception.NotFoundEntity;
 import com.example.vesselcheck.domain.Repository.BlockRepository;
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.Repository.ComponentRepository;
@@ -44,7 +45,9 @@ public class ComponentService {
      * 부품 조회
      */
     public List<Components> searchComponent(ComponentSearchCond componentSearchCond){
-        return componentRepository.searchComponent(componentSearchCond);
+        List<Components> resp = componentRepository.searchComponent(componentSearchCond);
+        log.info("resp = [{}]",resp);
+        return resp;
     }
 
     /**
@@ -73,6 +76,7 @@ public class ComponentService {
      */
     public void registerComponentList(ComponentForm componentForm){
         Block block = blockRepository.findBlockByBlockName(componentForm.getBlockName());
+        if(block == null) throw new NotFoundEntity("블럭이 없습니다");
         try {
             //부품 이미지 저장.
             List<Components> componentsList = fileStore.storeFiles(block, componentForm);

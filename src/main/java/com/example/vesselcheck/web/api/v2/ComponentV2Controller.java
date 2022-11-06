@@ -77,6 +77,7 @@ public class ComponentV2Controller{
     @IsToken
     public ComponentInfoList componentList(@PathVariable String imo , @ModelAttribute ComponentSearchCond componentSearchCond,
                                            HttpServletRequest req){
+        log.info("ComponentSearchCond {}",componentSearchCond);
         Vessel vessel = vesselRepository.findByIMO(imo).orElse(null);
         componentSearchCond.setVesselId(vessel.getId());
         ComponentInfoList resp = new ComponentInfoList();
@@ -84,7 +85,8 @@ public class ComponentV2Controller{
                 componentService.searchComponent(componentSearchCond)
                         .stream()
                         .map(c ->new ComponentInfo(c.getId(),c.getFaultType(),
-                                c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getImageUrlPath(),c.getWorkingStatus()))
+                                c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getImageUrlPath(),c.getWorkingStatus(),
+                                c.getBlock().getBlockName(),c.getBlock().getVessel().getIMO()))
                         .collect(Collectors.toList()));
         return resp;
     }
@@ -94,7 +96,8 @@ public class ComponentV2Controller{
     public ComponentInfo componentInfo (@PathVariable Long componentId , HttpServletRequest req){
         return componentRepository.findById(componentId)
                 .map(c ->new ComponentInfo(c.getId(),c.getFaultType(),
-                        c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getImageUrlPath(),c.getWorkingStatus()))
+                        c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getImageUrlPath(),c.getWorkingStatus(),
+                        c.getBlock().getBlockName(),c.getBlock().getVessel().getIMO()))
                 .get();
     }
 

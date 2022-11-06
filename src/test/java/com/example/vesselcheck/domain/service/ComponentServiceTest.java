@@ -1,20 +1,29 @@
 package com.example.vesselcheck.domain.service;
 
-import com.example.vesselcheck.domain.entity.FaultType;
+import com.example.vesselcheck.domain.Repository.BlockRepository;
+import com.example.vesselcheck.domain.Repository.ClientRepository;
+import com.example.vesselcheck.domain.Repository.ComponentRepository;
+import com.example.vesselcheck.domain.Repository.VesselRepository;
+import com.example.vesselcheck.domain.entity.*;
+import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class ComponentServiceTest {
 
 
@@ -67,6 +76,49 @@ class ComponentServiceTest {
 
 
     }
+    @Autowired
+    VesselRepository vesselRepository;
+    @Autowired
+    BlockRepository blockRepository;
+    @Autowired
+    ComponentRepository componentRepository;
+    @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
+    VesselService vesselService;
+    @Test
+    @DisplayName("searchComponent")
+    public void searchComponentTest() throws Exception{
+        Client client = new Inspector();
+        client.setName("wnsduds1");
+        clientRepository.save(client);
+        Vessel vessel = Vessel.createVessel("1","1", VesselType.Container);
+        vesselRepository.save(vessel);
+        vesselService.addVesselOfClient(vessel.getIMO(),client.getId());
+
+        Block block = Block.createBlock(vessel,client,"myblocks",WorkingStep.PieceAssembly);
+        blockRepository.save(block);
+
+
+        Components component = Components.createComponent(block,"구리","1221231");
+        componentRepository.save(component);
+
+        ComponentSearchCond componentSearchCond = new ComponentSearchCond();
+        componentSearchCond.setVesselId(vessel.getId());
+        List<Components> resp = componentRepository.searchComponent(componentSearchCond);
+
+        resp.stream().forEach(ele-> System.out.println("ele = " + ele));
+
+    }
+
+
+
+
+
+
+
+
 
 
 }

@@ -2,12 +2,14 @@ package com.example.vesselcheck.domain.entity;
 
 import com.example.vesselcheck.domain.service.Dto.ComponentUpdateDto;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
 @Getter
+@ToString
 public class Components extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

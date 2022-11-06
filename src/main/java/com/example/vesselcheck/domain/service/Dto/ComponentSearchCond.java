@@ -3,6 +3,7 @@ package com.example.vesselcheck.domain.service.Dto;
 import com.example.vesselcheck.domain.entity.FaultType;
 import com.example.vesselcheck.domain.entity.WorkingStatus;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 부품 검색 DTO
@@ -16,4 +17,5 @@ public class ComponentSearchCond {
     private String blockName;
     private Long clientId;
     private Long vesselId;
+
 }

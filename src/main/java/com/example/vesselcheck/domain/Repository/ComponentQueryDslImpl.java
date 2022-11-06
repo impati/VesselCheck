@@ -23,6 +23,7 @@ public class ComponentQueryDslImpl implements ComponentQueryDsl{
     private final JPAQueryFactory jpaQueryFactory;
     @Override
     public List<Components> searchComponent(ComponentSearchCond componentSearchCond) {
+        log.info("componentSearchCond [{}]",componentSearchCond);
         return jpaQueryFactory.selectFrom(components)
                 .join(components.block, block)
                 .where(
@@ -31,11 +32,11 @@ public class ComponentQueryDslImpl implements ComponentQueryDsl{
                         faultTypeEq(componentSearchCond.getFaultType()),
                         componentNameEq(componentSearchCond.getComponentName()),
                         sequenceNumberEq(componentSearchCond.getSequenceNumber()),
-                                workingStatusEq(componentSearchCond.getWorkingStatus()))
+                        workingStatusEq(componentSearchCond.getWorkingStatus()))
                 .fetch();
     }
     private BooleanExpression blockNameEq(String blockName){
-        return !StringUtils.hasText(blockName) ? null : components.componentName.contains(blockName);
+        return !StringUtils.hasText(blockName) ? null : block.blockName.contains(blockName);
     }
     private BooleanExpression faultTypeEq(FaultType faultType){
         return faultType == null ? null : components.faultType.eq(faultType);
