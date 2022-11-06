@@ -109,20 +109,6 @@ public class ComponentApiRestController {
                         c.getComponentName(),c.getSequenceNumber(),c.getUploadImageName(),c.getImageUrlPath(),c.getWorkingStatus()))
                 .get();
     }
-    /**
-     * 최신 버전
-     * 이미지 응답.
-     */
-    @ResponseBody
-    @GetMapping(value = "/image/{filename}")
-    public ResponseEntity<Resource> userSearch(@PathVariable String filename) throws IOException {
-        String inputFile = fileStore.getFullPath(filename);
-        Path path = new File(inputFile).toPath();
-        FileSystemResource resource = new FileSystemResource(path);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
-                .body(resource);
-    }
 
 
 

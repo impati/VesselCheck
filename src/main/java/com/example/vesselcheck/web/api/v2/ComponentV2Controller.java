@@ -11,6 +11,7 @@ import com.example.vesselcheck.domain.service.Dto.BlockSearchCond;
 import com.example.vesselcheck.domain.service.Dto.ComponentForm;
 import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
 import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
+import com.example.vesselcheck.domain.service.FileStore;
 import com.example.vesselcheck.web.api.dto.BlockRegisterRequest;
 import com.example.vesselcheck.web.api.dto.BlockSearchResponse;
 import com.example.vesselcheck.web.api.dto.ComponentInfoList;
@@ -19,10 +20,18 @@ import com.example.vesselcheck.web.api.v1.KakaoLogInConst;
 import com.example.vesselcheck.web.config.IsToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,7 +39,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ComponentV2Controller{
-
+    private final FileStore fileStore;
     private final ComponentRepository componentRepository;
     private final ComponentService componentService;
     private final VesselRepository vesselRepository;
@@ -92,8 +101,20 @@ public class ComponentV2Controller{
 
 
 
-
-
+    /**
+     * 최신 버전
+     * 이미지 응답.
+     */
+    @ResponseBody
+    @GetMapping(value = "/image/{filename}")
+    public ResponseEntity<Resource> userSearch(@PathVariable String filename) throws IOException {
+        String inputFile = fileStore.getFullPath(filename);
+        Path path = new File(inputFile).toPath();
+        FileSystemResource resource = new FileSystemResource(path);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
+                .body(resource);
+    }
 
 
 
