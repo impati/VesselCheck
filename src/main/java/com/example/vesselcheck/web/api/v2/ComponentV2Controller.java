@@ -1,5 +1,6 @@
 package com.example.vesselcheck.web.api.v2;
 
+import com.example.vesselcheck.domain.Exception.NotFoundEntity;
 import com.example.vesselcheck.domain.Repository.BlockRepository;
 import com.example.vesselcheck.domain.Repository.ClientRepository;
 import com.example.vesselcheck.domain.Repository.ComponentRepository;
@@ -79,6 +80,7 @@ public class ComponentV2Controller{
                                            HttpServletRequest req){
         log.info("ComponentSearchCond {}",componentSearchCond);
         Vessel vessel = vesselRepository.findByIMO(imo).orElse(null);
+        if(vessel == null) throw new NotFoundEntity("선박 imo 번호가 잘못되었습니다.");
         componentSearchCond.setVesselId(vessel.getId());
         ComponentInfoList resp = new ComponentInfoList();
         resp.setComponentInfoList(

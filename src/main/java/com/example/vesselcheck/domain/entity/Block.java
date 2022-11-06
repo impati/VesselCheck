@@ -23,6 +23,7 @@ public class Block extends BaseEntity{
 
     @Column(unique = true)
     private String blockName;
+    @Enumerated(EnumType.STRING)
     private WorkingStep workingStep;
 
 

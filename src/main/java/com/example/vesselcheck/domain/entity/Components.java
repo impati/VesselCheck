@@ -15,11 +15,13 @@ public class Components extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "component_id")
     private Long id;
+    @Enumerated(EnumType.STRING)
     private FaultType faultType;
     private String componentName;//enum?
     private String sequenceNumber;
     private String uploadImageName;
     private String storeImageName;
+    @Enumerated(EnumType.STRING)
     private WorkingStatus workingStatus;
     private String imageUrlPath;
     @ManyToOne

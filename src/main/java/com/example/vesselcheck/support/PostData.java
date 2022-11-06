@@ -28,7 +28,7 @@ public class PostData {
 
 
 
-    @EventListener(ApplicationReadyEvent.class)
+    //@EventListener(ApplicationReadyEvent.class)
     public void postData(){
         clientService.clientRegister("wnsduds1","sejong","yongs170@naver.com", ClientType.INSPECTOR);
         clientService.clientRegister("impati","sejong","impati0716@icloud.com", ClientType.MANUFACTURER);
