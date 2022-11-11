@@ -46,7 +46,6 @@ public class ComponentService {
      */
     public List<Components> searchComponent(ComponentSearchCond componentSearchCond){
         List<Components> resp = componentRepository.searchComponent(componentSearchCond);
-        log.info("resp = [{}]",resp);
         return resp;
     }
 
@@ -100,7 +99,6 @@ public class ComponentService {
         ResponseEntity<componentImageResponse> result =
                 new RestTemplate().exchange(new RequestEntity<>(new componentImageRequest(imagePath), HttpMethod.POST, uri), componentImageResponse.class);
 
-        log.info("result = [{}]",result.getBody());
         componentImageResponse body = result.getBody();
         components.update(body.getClass_id(),body.getImage_url());
     }

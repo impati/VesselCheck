@@ -65,7 +65,6 @@ public class VesselService {
      */
     public List<Vessel> searchVesselV2(Long kakaoId){
         Client client = clientRepository.findByKakaoId(kakaoId).orElse(null);
-        log.info("client {}",client);
         return clientVesselRepository.findVesselByClient(client.getId())
                 .stream()
                 .map(cv -> cv.getVessel()).collect(Collectors.toList());

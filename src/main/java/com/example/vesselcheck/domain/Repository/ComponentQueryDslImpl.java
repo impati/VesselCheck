@@ -23,7 +23,6 @@ public class ComponentQueryDslImpl implements ComponentQueryDsl{
     private final JPAQueryFactory jpaQueryFactory;
     @Override
     public List<Components> searchComponent(ComponentSearchCond componentSearchCond) {
-        log.info("componentSearchCond [{}]",componentSearchCond);
         return jpaQueryFactory.selectFrom(components)
                 .join(components.block, block)
                 .where(

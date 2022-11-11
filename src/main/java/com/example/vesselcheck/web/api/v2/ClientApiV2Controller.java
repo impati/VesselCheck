@@ -36,7 +36,6 @@ public class ClientApiV2Controller {
         else returnTokenResponse.setIs_our_client(true);
         returnTokenResponse.setName(responseKakaoClient.getKakao_account().getProfile().getNickname());
         returnTokenResponse.setEmail(responseKakaoClient.getKakao_account().getEmail());
-        log.info("returnTokenResponse [{}]",returnTokenResponse);
         return returnTokenResponse;
     }
     /**
@@ -45,11 +44,9 @@ public class ClientApiV2Controller {
     @PostMapping("/v2/join")
     @IsToken
     public PostResult client_infoSave(@Valid @RequestBody ClientSaveRequest clientSaveRequest, HttpServletRequest req){
-        log.info("clientSaveRequest {}",clientSaveRequest);
         clientService.clientRegister(clientSaveRequest.getName(),clientSaveRequest.getBelongs(),
                 clientSaveRequest.getEmail(),clientSaveRequest.getDuty(),clientSaveRequest.getClientType(),
                 getKaKaoInfo(req.getHeader("Authorization")).getId());
-
         return new PostResult("OK");
     }
     /**
