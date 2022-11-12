@@ -19,7 +19,7 @@ public enum FaultType {
     FAULT_TYPE_212(10,"테이프 불량"),
     FAULT_TYPE_213(11,"테이프 불량"),
     FAULT_TYPE_401(12,"볼트 체결 불량"),
-    FAULT_TYPE_402(12,"파이프 손상");
+    FAULT_TYPE_402(13,"파이프 손상");
 
     private Integer classId;
     private String title;
