@@ -129,10 +129,12 @@ public class ComponentService {
 
     public void workingChange(Long componentId){
         Components components = componentRepository.findById(componentId).orElse(null);
-        WorkingStatus []workingStatusList = WorkingStatus.values();
+        WorkingStatus []workingStatusList = new WorkingStatus[]{WorkingStatus.WorkingStart,WorkingStatus.WorkingIng,WorkingStatus.WorkingComplete,WorkingStatus.InspectionComplete};
         for(int i = 0;i<workingStatusList.length - 1 ;i++){
-            if(workingStatusList[i] == components.getWorkingStatus())
+            if(workingStatusList[i] == components.getWorkingStatus()) {
                 components.update(workingStatusList[i + 1]);
+                break;
+            }
         }
 
     }
