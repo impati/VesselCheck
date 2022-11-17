@@ -4,6 +4,7 @@ import com.example.vesselcheck.domain.entity.Block;
 import com.example.vesselcheck.domain.entity.Components;
 import com.example.vesselcheck.domain.service.Dto.ComponentForm;
 import com.example.vesselcheck.domain.service.Dto.UploadFile;
+import com.example.vesselcheck.web.api.dto.ComponentReForm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,15 @@ public class FileStore {
             }
         }
         return componentsList;
+    }
+    public String restoreFile(MultipartFile multipartFile) throws IOException {
+        if (!multipartFile.isEmpty()) {
+            String originName = multipartFile.getOriginalFilename();
+            String storeFileName = createStoreFileName(originName);
+            multipartFile.transferTo(new File(getFullPath(storeFileName)));//multipartFile 파일을 저장 pullPath에 저장
+            return storeFileName;
+        }
+        return null;
     }
 
     private String createStoreFileName(String originalFilename) {

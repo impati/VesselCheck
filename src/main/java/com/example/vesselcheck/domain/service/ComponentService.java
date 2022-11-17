@@ -8,6 +8,7 @@ import com.example.vesselcheck.domain.Repository.ComponentRepository;
 import com.example.vesselcheck.domain.Repository.VesselRepository;
 import com.example.vesselcheck.domain.entity.*;
 import com.example.vesselcheck.domain.service.Dto.*;
+import com.example.vesselcheck.web.api.dto.ComponentReForm;
 import com.example.vesselcheck.web.api.v1.ImageConst;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -115,7 +116,26 @@ public class ComponentService {
 
 
 
+    public void reUpload(ComponentReForm componentReForm){
+        Components components = componentRepository.findById(componentReForm.getComponentId()).orElse(null);
+        try{
+            String storeFileName = fileStore.restoreFile(componentReForm.getImageUploadName());
+            components.update(storeFileName);
+            decisionV1(components);
+        }catch(Exception e){
+            throw new FileUploadExceptionCustom("파일 업로드 에러",e);
+        }
+    }
 
+    public void workingChange(Long componentId){
+        Components components = componentRepository.findById(componentId).orElse(null);
+        WorkingStatus []workingStatusList = WorkingStatus.values();
+        for(int i = 0;i<workingStatusList.length - 1 ;i++){
+            if(workingStatusList[i] == components.getWorkingStatus())
+                components.update(workingStatusList[i + 1]);
+        }
+
+    }
     @Data
     static class componentImageResponse{
         private Integer class_id;

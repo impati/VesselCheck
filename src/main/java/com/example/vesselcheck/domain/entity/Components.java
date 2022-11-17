@@ -46,7 +46,11 @@ public class Components extends BaseEntity {
     }
 
 
-
+    public void update(String storeFileName){
+        this.storeImageName = storeFileName;
+    }public void update(WorkingStatus workingStatus){
+        this.workingStatus = workingStatus;
+    }
     public void update(Integer classId , String urlPath){
         if(classId == -1){
             this.faultType = FaultType.GOOD;

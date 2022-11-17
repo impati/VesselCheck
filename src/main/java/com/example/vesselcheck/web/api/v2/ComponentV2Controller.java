@@ -8,15 +8,9 @@ import com.example.vesselcheck.domain.Repository.VesselRepository;
 import com.example.vesselcheck.domain.entity.Client;
 import com.example.vesselcheck.domain.entity.Vessel;
 import com.example.vesselcheck.domain.service.ComponentService;
-import com.example.vesselcheck.domain.service.Dto.BlockSearchCond;
-import com.example.vesselcheck.domain.service.Dto.ComponentForm;
-import com.example.vesselcheck.domain.service.Dto.ComponentInfo;
-import com.example.vesselcheck.domain.service.Dto.ComponentSearchCond;
+import com.example.vesselcheck.domain.service.Dto.*;
 import com.example.vesselcheck.domain.service.FileStore;
-import com.example.vesselcheck.web.api.dto.BlockRegisterRequest;
-import com.example.vesselcheck.web.api.dto.BlockSearchResponse;
-import com.example.vesselcheck.web.api.dto.ComponentInfoList;
-import com.example.vesselcheck.web.api.dto.PostResult;
+import com.example.vesselcheck.web.api.dto.*;
 import com.example.vesselcheck.web.api.v1.KakaoLogInConst;
 import com.example.vesselcheck.web.config.IsToken;
 import lombok.RequiredArgsConstructor;
@@ -112,6 +106,7 @@ public class ComponentV2Controller{
      */
     @ResponseBody
     @GetMapping(value = "/image/{filename}")
+    @IsToken
     public ResponseEntity<Resource> userSearch(@PathVariable String filename) throws IOException {
         String inputFile = fileStore.getFullPath(filename);
         Path path = new File(inputFile).toPath();
@@ -120,6 +115,27 @@ public class ComponentV2Controller{
                 .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
                 .body(resource);
     }
+
+    @ResponseBody
+    @PatchMapping(value = "/v2/component/re-upload")
+    @IsToken
+    public PostResult reUpload(@Valid @ModelAttribute ComponentReForm componentReForm, HttpServletRequest req){
+        componentService.reUpload(componentReForm);
+        return new PostResult("ok");
+    }
+
+
+    @PatchMapping(value = "/v2/component/working-status")
+    @IsToken
+    public PostResult changeWorkingStatus(@Valid @RequestBody WorkingChangeDto workingChangeDto,HttpServletRequest req){
+        componentService.workingChange(workingChangeDto.getComponentId());
+        return new PostResult("ok");
+    }
+
+
+
+
+
 
 
 
