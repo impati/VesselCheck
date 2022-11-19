@@ -23,7 +23,7 @@
 - [부품 업로드](https://github.com/impati/VesselCheck/blob/main/docs/componentRegister.md)
 - [부품 조회](https://github.com/impati/VesselCheck/blob/main/docs/componentSearch.md)
 - [부품 상세](https://github.com/impati/VesselCheck/blob/main/docs/componentInfo.md)
-- [부품 재업로드]()
+- [부품 재업로드](https://github.com/impati/VesselCheck/blob/main/docs/componentReUpload.md)
 - [부품 작업 상태 변환]()
 - [에러 응답]() 
 
