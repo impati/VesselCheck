@@ -10,5 +10,5 @@
 ## 기능 목록 
 
 
-- [토큰 및 회원 유무 받기] (https://github.com/impati/VesselCheck/blob/main/docs/token.md)
+- [토큰 및 회원 유무 받기](https://github.com/impati/VesselCheck/blob/main/docs/token.md)
   
