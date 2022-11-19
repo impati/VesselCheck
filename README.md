@@ -15,7 +15,7 @@
 - [회원 정보](https://github.com/impati/VesselCheck/blob/main/docs/client.md)
 - [선박 조회](https://github.com/impati/VesselCheck/blob/main/docs/vesselSearch.md)
 - [내 선박으로 추가](https://github.com/impati/VesselCheck/blob/main/docs/vesselAdd.md)
-- [선박 등록]()
+- [선박 등록](https://github.com/impati/VesselCheck/blob/main/docs/vesselRegister.md)
 - [내 선박 조화]()
 - [선박 상세]()
 - [블럭 저장]()
