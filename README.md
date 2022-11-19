@@ -20,7 +20,7 @@
 - [선박 상세](https://github.com/impati/VesselCheck/blob/main/docs/vesselInfo.md)
 - [블럭 저장](https://github.com/impati/VesselCheck/blob/main/docs/blockRegister.md)
 - [블럭 조회](https://github.com/impati/VesselCheck/blob/main/docs/blockSearch.md)
-- [부품 업로드]()
+- [부품 업로드](https://github.com/impati/VesselCheck/blob/main/docs/componentRegister.md)
 - [부품 조회]()
 - [부품 상세]()
 - [부품 재업로드]()
