@@ -13,7 +13,7 @@
 - [토큰 및 회원 유무 받기](https://github.com/impati/VesselCheck/blob/main/docs/token.md)
 - [회원 가입](https://github.com/impati/VesselCheck/blob/main/docs/join.md)
 - [회원 정보](https://github.com/impati/VesselCheck/blob/main/docs/client.md)
-- [선박 조회]()
+- [선박 조회](https://github.com/impati/VesselCheck/blob/main/docs/vesselSearch.md)
 - [내 선박으로 추가]()
 - [선박 등록]()
 - [내 선박 조화]()
