@@ -25,6 +25,6 @@
 - [부품 상세](https://github.com/impati/VesselCheck/blob/main/docs/componentInfo.md)
 - [부품 재업로드](https://github.com/impati/VesselCheck/blob/main/docs/componentReUpload.md)
 - [부품 작업 상태 변환](https://github.com/impati/VesselCheck/blob/main/docs/componentWorkingStatus.md)
-- [에러 응답]() 
+- [에러 응답](https://github.com/impati/VesselCheck/blob/main/docs/error.md) 
 
 
