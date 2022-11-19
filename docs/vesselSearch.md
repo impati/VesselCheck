@@ -9,10 +9,10 @@
 
 Key| 타입  |required|설명
   ---|-----|---|---|
-imo|String|true|IMO 번호
-vesselName|String|true|선명
-vesselType|VesselType|true|General("일반 화물선"),Container("컨테이너선"),CrudeOil("원유 운반선"),Ore("광석 전용선"),Refrigerated("냉동선")
-ton|String|Integer|총 톤 수
+imo|String|false|IMO 번호
+vesselName|String|false|선명
+vesselType|VesselType|false|General("일반 화물선"),Container("컨테이너선"),CrudeOil("원유 운반선"),Ore("광석 전용선"),Refrigerated("냉동선")
+ton|Integer|false|총 톤 수
 
 - Response
 
