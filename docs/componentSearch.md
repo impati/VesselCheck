@@ -26,18 +26,18 @@ componentInfoList| List\<componentInfo> | true     |부품 조회 리스트
 
 - ComponentInfo
 
-Key| 타입                  | required |설명
----|---------------------|----------|---|
-componentName| String      | true     |부품 명
-sequenceNumber| String     | true    |부품 일련 번호
-workingStatus| WorkingStatus| true    |WorkingStart("재작업 시작"),WorkingIng("작업 중"),WorkingComplete("작업 완료"),InspectionComplete("검사 완료");
-blockName| String              | true    |블럭 이름
-uploadImageName| FaultType           | true    | 이미지 업로드 명
-storeImageUrl| FaultType           | true    | 저장되어 있는 이미지  URI
-componentId| FaultType           | true    | 부품 아이디
-blockName| FaultType           | true    | 블럭 이름
-imo| FaultType           | true    | 선박 imo
-faultType| FaultType           | false    | FaultType 참고
+Key| 타입            | required |설명
+---|---------------|----------|---|
+componentName| String        | true     |부품 명
+sequenceNumber| String        | true    |부품 일련 번호
+workingStatus| WorkingStatus | true    |WorkingStart("재작업 시작"),WorkingIng("작업 중"),WorkingComplete("작업 완료"),InspectionComplete("검사 완료");
+blockName| String        | true    |블럭 이름
+uploadImageName| String        | true    | 이미지 업로드 명
+storeImageUrl| String        | true    | 저장되어 있는 이미지  URI
+componentId| Long          | true    | 부품 아이디
+blockName| String     | true    | 블럭 이름
+imo| String     | true    | 선박 imo
+faultType| FaultType     | false    | FaultType 참고
 
 
 
