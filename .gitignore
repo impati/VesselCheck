@@ -17,7 +17,8 @@ src/main/generated/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-#*.yml
+*.yml
+KakaoLogInConst.java
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -27,7 +28,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 *.yml
-KakaoLogInConst.java
+/src/main/**/KakaoLogInConst.java
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
