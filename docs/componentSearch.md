@@ -55,6 +55,6 @@ faultType| FaultType     | false    | FaultType 참고
     FAULT_TYPE_210(8,"연계 처리 불량"),
     FAULT_TYPE_211(9,"케이블 손상"),
     FAULT_TYPE_212(10,"테이프 불량"),
-    FAULT_TYPE_213(11,"테이프 불량"),
+    FAULT_TYPE_213(11,"함석 처리 불량"),
     FAULT_TYPE_401(12,"볼트 체결 불량"),
     FAULT_TYPE_402(12,"파이프 손상");
