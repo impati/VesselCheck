@@ -16,6 +16,6 @@ name|String|true|이름
 email|String|true|이메일
 belongs|String|true|소속
 duty|String|true|직책
-clientType|ClientType|true|INSPECTOR,MANUFURER
+clientType|ClientType|true|INSPECTOR,MANUFACTURER
 
 
